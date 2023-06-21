@@ -1,0 +1,33 @@
+admin 
+INSERT INTO admins
+VALUES (default, 'John', 'Doe', 'password123', 'johndoe'); 
+
+skills
+INSERT INTO skills (name, description)0
+VALUES
+    ('Python', 'Experience with Python scripting language'),
+    ('HTML', 'Knowledge of HTML and web development'),
+    ('SQL', 'Proficient in writing SQL queries');
+
+INSERT INTO recruiters
+VALUES 
+  (default, 'Jane', 'Smith', 'password123', 'janesmith', 1),
+  (default, 'John', 'Patil', 'password456', 'johndoe', 1),
+  (default, 'Sarah', 'Johnson', 'password789', 'sarahjohnson', 1);
+
+
+INSERT INTO job 
+VALUES ('Software Engineer', 'We are seeking a skilled Software Engineer.', '2023-06-09', true, 1);
+
+INSERT INTO job 
+VALUES ('Data Analyst', 'We are hiring a Data Analyst for data analysis tasks.', '2023-06-10', true, 2);
+
+INSERT INTO job 
+VALUES ('Marketing Specialist', 'We are looking for a Marketing Specialist to drive marketing strategies.', '2023-06-11', true, 3);
+ insert into job "We are seeking a skilled Software Engineer. " , "Software Engineer" , "2023-02-02" , 1) ;
+
+INSERT INTO job 
+VALUES (default,true, 'We are looking for a testing Specialist to drive ','Tester', '2023-06-15', 1);
+INSERT INTO job 
+VALUES (default,true, "We are seeking a skilled Software Engineer. ","Panu Developer", "2023-02-02", 1);
+
