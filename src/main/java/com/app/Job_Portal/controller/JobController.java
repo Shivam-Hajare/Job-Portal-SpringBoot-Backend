@@ -25,10 +25,18 @@ public class JobController {
         return "hello world";
   }
 
+
+    @GetMapping("/home")
+    public String home() {
+        System.out.println("home api by aditya!!!");
+        System.out.println("hello by panu");
+        return "home added ";
+
     @GetMapping("/setting")
     public String setting() {
         System.out.println("this is settings api");
       return "this is setting mapping";
+
     }
 
     @GetMapping("/menu")
