@@ -2,8 +2,10 @@ package com.app.Job_Portal.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,6 +47,9 @@ public class JobSeeker {
     @OneToMany(mappedBy = "jobSeeker")
     private List<JobApplication> jobApplications;
 
+    @OneToMany(mappedBy="jobseeker",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<EducationalDetails> eduInfo;
+    
     @ManyToMany
     @JoinTable(
         name = "job_seeker_skills",
