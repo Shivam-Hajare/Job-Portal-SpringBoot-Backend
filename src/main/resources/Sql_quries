@@ -1,0 +1,64 @@
+//admin data
+
+INSERT INTO portal2.0 (adminId, email, first_name, last_name, password)
+VALUES (DEFAULT, 'shivam96@gmail.com', 'shivam', 'hajare', 'test123');
+
+//recruiter
+INSERT INTO recruiters (recruiterId, email, first_name, last_name, phoneNo, recruiterBio)
+VALUES (DEFAULT, 'recruiter@example.com', 'John', 'Doe', '1234567890', 'Recruiter Bio');
+
+//skills
+INSERT INTO skills (name, description)
+VALUES
+    ('Software Development', 'Proficient in software development using various programming languages and frameworks.'),
+    ('Database Management', 'Skilled in managing and optimizing databases, designing schemas, and writing complex queries.'),
+    ('Network Administration', 'Experienced in configuring and managing network infrastructure, ensuring smooth operations.'),
+    ('Cybersecurity', 'Knowledgeable in securing computer systems, networks, and data from unauthorized access or attacks.'),
+    ('Cloud Computing', 'Proficient in deploying, managing, and optimizing cloud-based solutions and services.'),
+    ('Data Analytics', 'Skilled in analyzing and interpreting complex data sets to derive meaningful insights.'),
+    ('Machine Learning', 'Experienced in developing and implementing machine learning algorithms and models.'),
+    ('IT Project Management', 'Proficient in managing IT projects, coordinating resources, and ensuring timely delivery.'),
+    ('IT Infrastructure Management', 'Skilled in managing and maintaining IT infrastructure, including servers, storage, and networks.'),
+    ('IT Support', 'Experienced in providing technical support and troubleshooting for hardware and software issues.'),
+    ('DevOps', 'Knowledgeable in combining development and operations practices to streamline software delivery and deployment.'),
+    ('Agile Methodologies', 'Proficient in Agile software development methodologies, such as Scrum or Kanban.'),
+    ('UI/UX Design', 'Skilled in designing user interfaces and experiences for software applications and websites.'),
+    ('IT Governance', 'Experienced in establishing and implementing IT governance frameworks and best practices.'),
+    ('IT Risk Management', 'Knowledgeable in identifying and managing IT-related risks and ensuring compliance.'),
+    ('Data Science', 'Proficient in extracting insights from large datasets using statistical analysis and machine learning techniques.'),
+    ('IT Consulting', 'Skilled in providing strategic advice and solutions for IT-related challenges and opportunities.'),
+    ('IT Vendor Management', 'Experienced in managing relationships with IT vendors and ensuring service level agreements are met.'),
+    ('Mobile App Development', 'Knowledgeable in developing mobile applications for iOS and Android platforms.'),
+    ('IT Auditing', 'Proficient in conducting IT audits to assess the effectiveness and security of IT systems.'),
+    ('Business Intelligence', 'Skilled in using data analytics and visualization tools to provide insights for business decision-making.'),
+    ('IT Change Management', 'Experienced in managing and implementing changes to IT systems and processes.'),
+    ('Virtualization', 'Knowledgeable in virtualization technologies, such as VMware or Hyper-V, for server consolidation and resource optimization.'),
+    ('IT Service Management', 'Proficient in designing, implementing, and managing IT service delivery and support processes.'),
+    ('IT Quality Assurance', 'Skilled in ensuring the quality and reliability of software through testing and quality assurance processes.'),
+    ('Java', 'Proficient in Java programming language and development frameworks like Spring and Hibernate.'),
+    ('Python', 'Experienced in Python programming language and libraries for various applications including data analysis and web development.'),
+    ('C/C++', 'Skilled in C and C++ programming languages for system-level development and performance-critical applications.'),
+    ('JavaScript', 'Proficient in JavaScript programming language for front-end and full-stack web development.'),
+    ('Ruby', 'Experienced in Ruby programming language for web development and scripting tasks.'),
+    ('PHP', 'Proficient in PHP programming language for web development and server-side scripting.'),
+    ('Swift', 'Experienced in Swift programming language for iOS and macOS app development.'),
+    ('Go', 'Skilled in Go programming language for building scalable and concurrent applications.'),
+    ('R', 'Proficient in R programming language for statistical analysis and data visualization.'),
+    ('Scala', 'Experienced in Scala programming language for building scalable and
+
+//job_seekers
+INSERT INTO job_seekers (email, firstName, lastName, password)
+VALUES
+    ('example1@example.com', 'John', 'Doe', 'password123'),
+    ('example2@example.com', 'Jane', 'Smith', 'password456'),
+    ('example3@example.com', 'Michael', 'Johnson', 'password789'),
+    ('example4@example.com', 'Emily', 'Davis', 'passwordabc'),
+    ('example5@example.com', 'David', 'Wilson', 'passwordxyz');
+
+//user
+INSERT INTO user (email, password, role)
+VALUES
+    ('admin@example.com', 'admin123', 'admin'),
+    ('jobseeker1@example.com', 'seeker123', 'jobseeker'),
+    ('recruiter1@example.com', 'recruiter123', 'recruiter');
+
