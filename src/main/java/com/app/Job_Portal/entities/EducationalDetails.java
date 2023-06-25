@@ -32,7 +32,7 @@ public class EducationalDetails {
 
 	
 	@Column(nullable = false)
-	private String qulification;
+	private String qualification;
 	
 	@Column(nullable = false)
 	private String institute;
