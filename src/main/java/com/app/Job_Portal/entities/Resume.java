@@ -18,9 +18,10 @@ public class Resume {
     @Column(name = "resume_id")
     private Long resumeId;
 
-    @Column(name = "job_seeker_id")
+    
     @OneToOne
-    private Long jobSeekerId;
+    @JoinColumn(name="jobseeker_id")
+    private JobSeeker jobseeker;
 
     @Column(name = "resume_file")
     private byte[] resumeFile;
