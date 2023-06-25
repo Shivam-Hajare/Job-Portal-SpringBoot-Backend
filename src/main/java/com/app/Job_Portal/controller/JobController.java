@@ -19,24 +19,14 @@ public class JobController {
     @Autowired
     private JobService jobServiceImpl;
 
-
     @GetMapping("/hello")
   public String Helo() {
         return "hello world";
   }
-
-
-    @GetMapping("/home")
-    public String home() {
-        System.out.println("home api by aditya!!!");
-        System.out.println("hello by panu");
-        return "home added ";
+    @GetMapping("/findAllJobs")
+    public ResponseEntity<?>  getAllJobs() {
+        System.out.println("in find all jobs!!!");
+        return new ResponseEntity<>(jobServiceImpl.getAllJobs(), HttpStatus.OK);
     }
 
-    @GetMapping("/setting")
-    public String setting() {
-        System.out.println("this is settings api");
-      return "this is setting mapping";
-
-    }
 }
