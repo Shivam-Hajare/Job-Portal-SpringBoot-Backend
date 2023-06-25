@@ -16,18 +16,18 @@ import com.app.Job_Portal.service.JobService;
 @RequestMapping("/jobs")
 public class JobController {
 
-	@Autowired
-	private JobService jobServiceImpl;
-	
+    @Autowired
+    private JobService jobServiceImpl;
 
-  @GetMapping("/hello")
+
+    @GetMapping("/hello")
   public String Helo() {
-	  return "hello world";
+        return "hello world";
   }
 
-    @GetMapping("/home")
-    public String home() {
-        System.out.println("home api by aditya!!!");
-        return "home added ";
+    @GetMapping("/setting")
+    public String setting() {
+        System.out.println("this is settings api");
+      return "this is setting mapping";
     }
 }
