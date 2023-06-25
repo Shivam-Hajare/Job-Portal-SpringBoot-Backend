@@ -24,4 +24,9 @@ public class JobController {
   public String Helo() {
 	  return "hello world";
   }
+
+    @GetMapping("/home")
+    public String home() {
+        return "home added ";
+    }
 }
