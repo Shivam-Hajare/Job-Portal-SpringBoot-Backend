@@ -30,4 +30,10 @@ public class JobController {
         System.out.println("this is settings api");
       return "this is setting mapping";
     }
+
+    @GetMapping("/menu")
+    public String menu() {
+        System.out.println("this is menu api");
+        return "this is menu apis";
+    }
 }
