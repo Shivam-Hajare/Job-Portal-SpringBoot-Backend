@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,10 +43,23 @@ public class JobListing {
 
     @Column(nullable = false)
     private LocalDate postedDate;
+    
+    @Column(nullable = false)
+    private LocalDate deadLineDate;
+
+//    @Column(nullable = false)
+//    private Boolean status;
+    
+    @Column(nullable = false)
+    private int noOfJobPositions;
 
     @Column(nullable = false)
-    private Boolean active;
-
+    private double salary;
+    
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private JobType jobType;
+    
     @ManyToOne
     @JoinColumn(name = "recruiterId" )
     private Recruiter postedBy;
@@ -69,19 +84,9 @@ public class JobListing {
 	@Override
 	public String toString() {
 		return "JobListing [jobListingId=" + jobListingId + ", jobTitle=" + jobTitle + ", jobDescription="
-				+ jobDescription + ", postedDate=" + postedDate + ", active=" + active + ", postedBy=" + postedBy + "]";
+				+ jobDescription + ", postedDate=" + postedDate + ", postedBy=" + postedBy + "]";
 	}
 
 
 
-	
-
-
-
-	
-
-    // Getters and setters for all properties
-    // ...
-
-    // Other job listing properties, getters, and setters
 }

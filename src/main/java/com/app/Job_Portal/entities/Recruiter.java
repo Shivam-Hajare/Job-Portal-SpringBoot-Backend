@@ -23,31 +23,29 @@ import lombok.ToString;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString(exclude = {"password","jobListings"})
+@ToString(exclude = {"jobListings"})
 public class Recruiter {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recruiter_id")
     private Long recruiterId;
 
     @Column(unique = true, nullable = false)
-    private String userName;
+    private String email;
 
     @Column(nullable = false)
     private String firstName;
-
-    private String lastName;
-
+    
     @Column(nullable = false)
-    private String password;
+    private String lastName;
+    
+    @Column(nullable = false)
+    private String phoneNo;
+    
+    @Column(nullable = false)
+    private String recruiterBio;
 
-//    @ManyToMany
-//    @JoinTable(
-//        name = "recruiter_skills",
-//        joinColumns = @JoinColumn(name = "recruiter_id"),
-//        inverseJoinColumns = @JoinColumn(name = "skill_id")
-//    )
-//    private List<Skill> skills;
     
     @ManyToOne
     @JoinColumn(name = "admin_id")

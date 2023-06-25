@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "admins")
+@Table(name = "admin")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,11 +26,12 @@ public class Admin {
     private Long adminId;
 
     @Column(unique = true, nullable = false)
-    private String userName;
+    private String email;
 
     @Column(nullable = false)
     private String firstName;
-
+    
+    @Column(nullable = false)
     private String lastName;
 
     @Column(nullable = false)

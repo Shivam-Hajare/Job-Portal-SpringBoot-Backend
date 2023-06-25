@@ -32,7 +32,7 @@ public class JobSeeker {
     private Long jobSeekerId;
 
     @Column(unique = true, nullable = false)
-    private String userName;
+    private String email;
 
     @Column(nullable = false)
     private String firstName;
