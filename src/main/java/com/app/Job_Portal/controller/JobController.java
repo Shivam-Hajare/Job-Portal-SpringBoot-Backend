@@ -31,6 +31,7 @@ public class JobController {
         System.out.println("home api by aditya!!!");
         System.out.println("hello by panu");
         return "home added ";
+    }
 
     @GetMapping("/setting")
     public String setting() {
