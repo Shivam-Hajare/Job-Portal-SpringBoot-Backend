@@ -45,6 +45,9 @@ public class JobSeeker {
     @OneToMany(mappedBy = "jobSeeker")
     private List<JobApplication> jobApplications;
 
+    @OneToMany(mappedBy="jobseeker")
+    private List<EducationalDetails> eduInfo;
+    
     @ManyToMany
     @JoinTable(
         name = "job_seeker_skills",
