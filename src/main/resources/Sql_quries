@@ -1,13 +1,16 @@
-//admin data
+use jobportalfinal;
 
-INSERT INTO portal2.0 (adminId, email, first_name, last_name, password)
+
+INSERT INTO admin (admin_id, email, first_name, last_name, password)
 VALUES (DEFAULT, 'shivam96@gmail.com', 'shivam', 'hajare', 'test123');
 
-//recruiter
-INSERT INTO recruiters (recruiterId, email, first_name, last_name, phoneNo, recruiterBio)
-VALUES (DEFAULT, 'recruiter@example.com', 'John', 'Doe', '1234567890', 'Recruiter Bio');
+select * from admin;
 
-//skills
+INSERT INTO recruiters (recruiter_id, email, first_name, last_name, phone_no, recruiter_bio,admin_id)
+VALUES (DEFAULT, 'recruiter@example.com', 'John', 'Doe', '1234567890', 'Recruiter Bio',1);
+
+select * from recruiters;
+
 INSERT INTO skills (name, description)
 VALUES
     ('Software Development', 'Proficient in software development using various programming languages and frameworks.'),
@@ -44,21 +47,23 @@ VALUES
     ('Swift', 'Experienced in Swift programming language for iOS and macOS app development.'),
     ('Go', 'Skilled in Go programming language for building scalable and concurrent applications.'),
     ('R', 'Proficient in R programming language for statistical analysis and data visualization.'),
-    ('Scala', 'Experienced in Scala programming language for building scalable and
+    ('Scala', 'Experienced in Scala programming language for building scalable and');
 
-//job_seekers
-INSERT INTO job_seekers (email, firstName, lastName, password)
+select * from skills;
+
+INSERT INTO job_seekers (email, first_name, last_name, password)
 VALUES
     ('example1@example.com', 'John', 'Doe', 'password123'),
     ('example2@example.com', 'Jane', 'Smith', 'password456'),
     ('example3@example.com', 'Michael', 'Johnson', 'password789'),
     ('example4@example.com', 'Emily', 'Davis', 'passwordabc'),
     ('example5@example.com', 'David', 'Wilson', 'passwordxyz');
+select * from job_seekers;
 
-//user
 INSERT INTO user (email, password, role)
 VALUES
     ('admin@example.com', 'admin123', 'admin'),
     ('jobseeker1@example.com', 'seeker123', 'jobseeker'),
     ('recruiter1@example.com', 'recruiter123', 'recruiter');
-
+    
+select * from user;
