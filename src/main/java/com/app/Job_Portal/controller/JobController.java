@@ -27,6 +27,7 @@ public class JobController {
 
     @GetMapping("/home")
     public String home() {
+        System.out.println("home api!!!");
         return "home added ";
     }
 }
