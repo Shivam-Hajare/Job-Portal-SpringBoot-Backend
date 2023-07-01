@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.Job_Portal.dto.JobListDto;
+import com.app.Job_Portal.dto.PostJobRequestDto;
 import com.app.Job_Portal.entities.JobListing;
 import com.app.Job_Portal.repository.JobRepository;
+import com.app.Job_Portal.repository.RecruiterRepository;
 
 @Service
 @Transactional
@@ -22,6 +24,9 @@ public class JobServiceImpl implements JobService {
 	
 	@Autowired
 	private JobRepository JobRepo;
+	
+	@Autowired
+	private RecruiterRepository recruiterRepository;
 
 	@Override
 	public List<JobListDto> getAllJobs() {
@@ -35,6 +40,16 @@ public class JobServiceImpl implements JobService {
 					return joblistDto;
 				})
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public String postJob(PostJobRequestDto postJobRequestDto) {
+		if(recruiterRepository.existsById(postJobRequestDto.getRecruiterId()))
+		{
+			JobRepo.save(mapper.map(postJobRequestDto, JobListing.class));
+			return "job added";
+		}
+		return "not added job!!";
 	}
 	
 	
