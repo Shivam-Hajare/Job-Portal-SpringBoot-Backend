@@ -1,5 +1,8 @@
 package com.app.Job_Portal.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -13,7 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
+@Setter
+@Getter
 @Entity
 @Table(name = "job_applications")
 public class JobApplication {
