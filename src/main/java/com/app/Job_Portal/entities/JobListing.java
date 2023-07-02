@@ -2,6 +2,7 @@ package com.app.Job_Portal.entities;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -86,6 +87,8 @@ public class JobListing {
 		return "JobListing [jobListingId=" + jobListingId + ", jobTitle=" + jobTitle + ", jobDescription="
 				+ jobDescription + ", postedDate=" + postedDate + ", postedBy=" + postedBy + "]";
 	}
+
+
 
 
 
