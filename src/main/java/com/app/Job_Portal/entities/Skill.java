@@ -2,6 +2,7 @@ package com.app.Job_Portal.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,10 +30,10 @@ public class Skill {
 
     private String description;
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(mappedBy = "skills",cascade = CascadeType.ALL)
     private List<JobListing> jobListings;
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(mappedBy = "skills",cascade = CascadeType.ALL)
     private List<JobSeeker> jobSeekers;
     // Constructors, getters, and setters
 
