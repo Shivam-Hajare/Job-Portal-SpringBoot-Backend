@@ -6,6 +6,7 @@ import com.app.Job_Portal.entities.JobListing;
 import com.app.Job_Portal.service.JobSeekerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,6 +74,22 @@ public class JobseekerController
 
     }
 
+
+    /**
+     *
+     *  @Path         /get/title/{title}
+     * @param         None
+     * @PathVariable  title
+     * @return        Response Entity of JobListDto type
+     * Description :  This method return List of jobs with given title type
+     * @GetMapping:   Annotation for mapping HTTP GET requests onto specific handler methods.
+     *
+     */
+//    public ResponseEntity applyForJob() {
+//
+//    }
+
+    /* INCOMPLETE */   // not able to test
     /**
      *
      *  @Path         /get/applied/{jobseekerId}
@@ -83,6 +100,7 @@ public class JobseekerController
      * @GetMapping:   Annotation for mapping HTTP GET requests onto specific handler methods.
      *
      */
+
 
     /* INCOMPLETE */   // not able to test
     // haven't added any job so not getting write a post api first
