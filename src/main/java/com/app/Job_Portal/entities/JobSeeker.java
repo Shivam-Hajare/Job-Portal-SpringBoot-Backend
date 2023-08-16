@@ -16,8 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -27,6 +30,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @ToString(exclude = "password")
+@NoArgsConstructor
 public class JobSeeker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +43,15 @@ public class JobSeeker {
     @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
 
     @Column(nullable = false)
     private String password;
+    
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int yearOfExperience;
 
     @OneToMany(mappedBy = "jobSeeker")
     private List<JobApplication> jobApplications;
@@ -61,17 +70,7 @@ public class JobSeeker {
     @ManyToOne
     @JoinColumn(name = "admin_id")
     private Admin admin;
-    // Constructors, getters, and setters
-
-    public JobSeeker() {
-        // Default constructor
-    }
-
    
 
-    // Getters and setters for all properties
-    // ...
-
-    // Other job seeker properties, getters, and setters
 }
 

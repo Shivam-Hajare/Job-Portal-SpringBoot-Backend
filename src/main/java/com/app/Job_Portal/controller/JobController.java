@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import com.app.Job_Portal.entities.Job;
+
 import com.app.Job_Portal.dto.PostJobRequestDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
 import com.app.Job_Portal.service.JobService;

@@ -30,8 +30,9 @@ public class Skill {
 
     private String description;
 
-    @ManyToMany(mappedBy = "skills",cascade = CascadeType.ALL)
-    private List<JobListing> jobListings;
+    @ManyToMany(mappedBy = "skills")
+    private List<Job> jobListings;
+
 
     @ManyToMany(mappedBy = "skills",cascade = CascadeType.ALL)
     private List<JobSeeker> jobSeekers;

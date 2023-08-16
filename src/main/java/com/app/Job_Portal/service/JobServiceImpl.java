@@ -16,9 +16,8 @@ import org.springframework.stereotype.Service;
 import com.app.Job_Portal.dto.JobListDto;
 import com.app.Job_Portal.dto.PostJobRequestDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
+import com.app.Job_Portal.entities.Job;
 import com.app.Job_Portal.entities.JobApplication;
-import com.app.Job_Portal.entities.JobListing;
-import com.app.Job_Portal.entities.JobSeeker;
 import com.app.Job_Portal.entities.Skill;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
 import com.app.Job_Portal.repository.JobApplicationRepository;
@@ -47,18 +46,22 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public List<JobListDto> getAllJobs() {
-		List<JobListing> list = JobRepo.findAll();
-		return list.stream().map(l -> {
-			JobListDto joblistDto = mapper.map(l, JobListDto.class);
 
-			joblistDto.setRecruiterName(l.getPostedBy().getFirstName());
-			return joblistDto;
-		}).collect(Collectors.toList());
+		List<Job> list= JobRepo.findAll();
+		
+		return list.stream()
+				.map(l -> {
+					JobListDto joblistDto =	mapper.map(l, JobListDto.class);
+					
+					joblistDto.setRecruiterName(l.getPostedBy().getFirstName());
+					return joblistDto;
+				})
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public String postJob(PostJobRequestDto postJobRequestDto) {
-		JobListing job = mapper.map(postJobRequestDto, JobListing.class);
+		Job job = mapper.map(postJobRequestDto, Job.class);
 		// checking recruiter present or not also skills list is not empty
 		if (recruiterRepository.existsById(postJobRequestDto.getRecruiterId())
 				&& postJobRequestDto.getSkillIds() != null && !postJobRequestDto.getSkillIds().isEmpty()) {
@@ -74,7 +77,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Map<String, Boolean> deleteJob(Long jobId) {
-		JobListing job = JobRepo.findById(jobId)
+		Job job = JobRepo.findById(jobId)
 				.orElseThrow(() -> new ResourceNotFoundException("job not found with ID: " + jobId));
 		JobRepo.delete(job);
 
@@ -85,7 +88,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public String updateJob(Long jobId, UpdateJobRequestDto updateJobRequestDto) {
-		JobListing job = JobRepo.findById(jobId)
+		Job job = JobRepo.findById(jobId)
 				.orElseThrow(() -> new ResourceNotFoundException("job not found with ID: " + jobId));
 
 		if (recruiterRepository.existsById(updateJobRequestDto.getRecruiterId())
@@ -106,7 +109,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public String updateApplicationStatus(Long jobId, Long jobSeekerId, @Valid String jobStatus) {
-		JobListing job = JobRepo.findById(jobId)
+		Job job = JobRepo.findById(jobId)
 				.orElseThrow(() -> new ResourceNotFoundException("job not found with ID: " + jobId));
 		List<JobApplication> applicatioList = job.getApplications();
 
