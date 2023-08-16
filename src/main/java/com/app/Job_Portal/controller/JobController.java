@@ -19,6 +19,10 @@ public class JobController {
     @Autowired
     private JobService jobServiceImpl;
 
+    @GetMapping("/hello")
+  public String Helo() {
+        return "hello world";
+  }
     @GetMapping("/findAllJobs")
     public ResponseEntity<?>  getAllJobs() {
         System.out.println("in find all jobs!!!");
