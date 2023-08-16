@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,7 +49,9 @@ public class JobSeeker {
     @Column(nullable = false)
     private String password;
     
- 
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int yearOfExperience;
 
     @OneToMany(mappedBy = "jobSeeker")
     private List<JobApplication> jobApplications;
