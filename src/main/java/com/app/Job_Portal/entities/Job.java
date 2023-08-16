@@ -29,11 +29,11 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 //@ToString
-public class JobListing {
+public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "job_id")
-    private Long jobListingId;
+    private Long jobId;
 
     @Column(nullable = false)
     private String jobTitle;
@@ -77,13 +77,13 @@ public class JobListing {
 
     // Constructors, getters, and setters
 
-    public JobListing() {
+    public Job() {
         // Default constructor
     }
 
 	@Override
 	public String toString() {
-		return "JobListing [jobListingId=" + jobListingId + ", jobTitle=" + jobTitle + ", jobDescription="
+		return "JobListing [jobListingId=" + jobId + ", jobTitle=" + jobTitle + ", jobDescription="
 				+ jobDescription + ", postedDate=" + postedDate + ", postedBy=" + postedBy + "]";
 	}
 

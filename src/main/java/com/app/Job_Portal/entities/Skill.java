@@ -30,7 +30,7 @@ public class Skill {
     private String description;
 
     @ManyToMany(mappedBy = "skills")
-    private List<JobListing> jobListings;
+    private List<Job> jobListings;
 
     @ManyToMany(mappedBy = "skills")
     private List<JobSeeker> jobSeekers;

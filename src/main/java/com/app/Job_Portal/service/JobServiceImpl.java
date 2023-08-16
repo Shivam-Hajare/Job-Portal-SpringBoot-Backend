@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.Job_Portal.dto.JobListDto;
-import com.app.Job_Portal.entities.JobListing;
+import com.app.Job_Portal.entities.Job;
 import com.app.Job_Portal.repository.JobRepository;
 
 @Service
@@ -25,7 +25,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public List<JobListDto> getAllJobs() {
-		List<JobListing> list= JobRepo.findAll();
+		List<Job> list= JobRepo.findAll();
 		
 		return list.stream()
 				.map(l -> {

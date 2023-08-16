@@ -52,7 +52,7 @@ public class Recruiter {
     private Admin admin;
 
     @OneToMany(mappedBy = "postedBy",fetch =FetchType.EAGER )
-    private List<JobListing> jobListings;
+    private List<Job> jobListings;
 
     // Constructors, getters, and setters
 

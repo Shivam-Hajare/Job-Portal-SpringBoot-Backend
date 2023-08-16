@@ -24,7 +24,7 @@ public class JobApplication {
 
     @ManyToOne
     @JoinColumn(name = "job_id")
-    private JobListing job;
+    private Job job;
 
     @ManyToOne
     @JoinColumn(name = "job_seeker_id")
@@ -43,7 +43,7 @@ public class JobApplication {
         // Default constructor
     }
 
-    public JobApplication(JobListing job, JobSeeker jobSeeker, LocalDate appliedDate) {
+    public JobApplication(Job job, JobSeeker jobSeeker, LocalDate appliedDate) {
         this.job = job;
         this.jobSeeker = jobSeeker;
         this.appliedDate = appliedDate;

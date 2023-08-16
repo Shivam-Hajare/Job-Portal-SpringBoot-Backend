@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.Job_Portal.entities.JobListing;
+import com.app.Job_Portal.entities.Job;
 import com.app.Job_Portal.service.JobService;
 
 @RestController
@@ -19,10 +19,6 @@ public class JobController {
     @Autowired
     private JobService jobServiceImpl;
 
-    @GetMapping("/hello")
-  public String Helo() {
-        return "hello world";
-  }
     @GetMapping("/findAllJobs")
     public ResponseEntity<?>  getAllJobs() {
         System.out.println("in find all jobs!!!");
