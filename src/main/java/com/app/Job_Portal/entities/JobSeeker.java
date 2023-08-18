@@ -1,5 +1,6 @@
 package com.app.Job_Portal.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -54,10 +55,11 @@ public class JobSeeker {
     private int yearOfExperience;
 
     @OneToMany(mappedBy = "jobSeeker")
-    private List<JobApplication> jobApplications;
+    private List<JobApplication> jobApplications = new ArrayList<>();
 
-    @OneToMany(mappedBy="jobseeker",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
-    private List<EducationalDetails> eduInfo;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "jobseeker_id")
+    private List<EducationalDetails> eduInfo = new ArrayList<>();
     
     @ManyToMany
     @JoinTable(
@@ -65,12 +67,23 @@ public class JobSeeker {
         joinColumns = @JoinColumn(name = "job_seeker_id"),
         inverseJoinColumns = @JoinColumn(name = "skill_id")
     )
-    private List<Skill> skills;
+    private List<Skill> skills = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "admin_id")
     private Admin admin;
-   
+
+    public void submitAnApplication(JobApplication application, Job job) {
+        this.jobApplications.add(application);
+        job.getApplications().add(application);
+        application.setJobSeeker(this);
+    }
+
+    public void withDrawAnApplication(JobApplication application, Job job) {
+        this.jobApplications.remove(application);
+        job.getApplications().remove(application);
+        application.setJobSeeker(null);
+    }
 
 }
 

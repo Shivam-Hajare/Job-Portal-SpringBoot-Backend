@@ -1,7 +1,9 @@
 package com.app.Job_Portal.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 
@@ -18,6 +20,7 @@ import javax.persistence.Table;
 
 @Setter
 @Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "job_applications")
 public class JobApplication {
@@ -43,9 +46,6 @@ public class JobApplication {
 
     // Constructors, getters, and setters
 
-    public JobApplication() {
-        // Default constructor
-    }
 
     public JobApplication(Job job, JobSeeker jobSeeker, LocalDate appliedDate) {
         this.job = job;

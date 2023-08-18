@@ -3,6 +3,7 @@ package com.app.Job_Portal.dto;
 import java.time.LocalDate;
 
 import com.app.Job_Portal.entities.JobType;
+import com.app.Job_Portal.entities.Status;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,4 +30,5 @@ public class JobListDto {
 
 	//private Recruiter postedBy;
 	private String recruiterName;
+
 }
