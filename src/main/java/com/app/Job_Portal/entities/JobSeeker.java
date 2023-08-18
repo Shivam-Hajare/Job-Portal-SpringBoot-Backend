@@ -53,7 +53,7 @@ public class JobSeeker {
     @ColumnDefault("0")
     private int yearOfExperience;
 
-    @OneToMany(mappedBy = "jobSeeker")
+    @OneToMany(mappedBy = "jobSeeker",cascade = CascadeType.ALL)
     private List<JobApplication> jobApplications;
 
     @OneToMany(mappedBy="jobseeker",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
@@ -67,7 +67,7 @@ public class JobSeeker {
     )
     private List<Skill> skills;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "admin_id")
     private Admin admin;
    

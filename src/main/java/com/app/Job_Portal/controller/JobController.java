@@ -1,5 +1,6 @@
 package com.app.Job_Portal.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.Job_Portal.dto.JobApplicationsListDto;
 import com.app.Job_Portal.dto.PostJobRequestDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
 import com.app.Job_Portal.service.JobService;
@@ -71,11 +73,21 @@ public class JobController {
     //accept/reject application
     //working on this!!!not completed
     @PutMapping("/{jobId}/{jobSeekerId}")
-    public ResponseEntity<?>updateApplicationStatus(@PathVariable(value = "jobId") Long jobId,@PathVariable(value = "jobSeekerId") Long jobSeekerId, @Valid @RequestBody String jobStatus)
+    public ResponseEntity<?>updateApplicationStatus(@PathVariable(value = "jobId") Long jobId,@PathVariable(value = "jobSeekerId") Long jobSeekerId, @RequestBody String jobStatus)
     {
-    	System.out.println("jobStatus "+jobStatus+" jobSeekerId: "+jobSeekerId+" jobId: "+jobId);
+    	System.out.println("jobStatus######################### "+jobStatus+" jobSeekerId: "+jobSeekerId+" jobId: "+jobId);
     	
     	String rst=jobServiceImpl.updateApplicationStatus(jobId,jobSeekerId,jobStatus);
     	return new ResponseEntity<>(rst, HttpStatus.OK);
+    }
+    
+    //List of job applications
+    @GetMapping("/JobApplications/{id}")
+    public ResponseEntity<?>getAllJobApplications(@PathVariable(value = "id") Long jobId)
+    {
+    	System.out.println(jobId+" "+jobId);
+    	List<JobApplicationsListDto>jobAppList=jobServiceImpl.getListOfJobApplications(jobId);
+    	
+    	return new ResponseEntity<>(jobAppList, HttpStatus.OK);
     }
 }

@@ -14,10 +14,10 @@ import lombok.ToString;
 @Setter
 @ToString
 public class JobApplicationsListDto {
-	
+	private Long jobSeekerId;
     private String firstName;
     private String lastName;
-    private List<Skill> skills;
+    private List<SkillDto> skills;
     private byte[] resumeFile;
     private LocalDate appliedDate;
     private Status status;
