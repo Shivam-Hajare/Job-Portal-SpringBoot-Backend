@@ -12,14 +12,5 @@ import com.app.Job_Portal.dto.UpdateJobRequestDto;
 
 public interface JobService {
 	List<JobListDto> getAllJobs();
-
-	String postJob(PostJobRequestDto postJobRequestDto);
-
-	Map<String, Boolean> deleteJob(Long jobId);
-
-	String updateJob(Long jobId, UpdateJobRequestDto updateJobRequestDto);
-
-	String updateApplicationStatus(Long jobId, Long jobSeekerId, @Valid String jobStatus);
-
 	List<JobApplicationsListDto> getListOfJobApplications(Long jobId);
 }
