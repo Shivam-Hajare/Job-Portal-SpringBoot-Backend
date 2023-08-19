@@ -13,8 +13,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+//@ToString
 @Table(name = "job_applications")
 public class JobApplication {
     @Id
