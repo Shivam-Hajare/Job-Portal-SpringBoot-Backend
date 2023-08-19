@@ -68,7 +68,7 @@ public class Job {
     )
     private List<Skill> skills;
     
-    @OneToMany(mappedBy = "job",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "job",fetch = FetchType.EAGER)
     private List<JobApplication> applications;
 
     // Constructors, getters, and setters
