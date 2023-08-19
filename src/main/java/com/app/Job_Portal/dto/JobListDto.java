@@ -13,6 +13,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class JobListDto {
+	
+	private Long jobId;
 
 	private String jobTitle;
 
