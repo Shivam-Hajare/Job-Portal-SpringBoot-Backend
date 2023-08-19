@@ -9,6 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class SkillDto {
     private Long skillId;
     private String name;
