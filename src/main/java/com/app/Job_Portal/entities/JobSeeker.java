@@ -54,11 +54,10 @@ public class JobSeeker {
     @ColumnDefault("0")
     private int yearOfExperience;
 
-    @OneToMany(mappedBy = "jobSeeker")
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<JobApplication> jobApplications = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "jobseeker_id")
+    @OneToMany(mappedBy = "jobSeeker",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<EducationalDetails> eduInfo = new ArrayList<>();
     
     @ManyToMany

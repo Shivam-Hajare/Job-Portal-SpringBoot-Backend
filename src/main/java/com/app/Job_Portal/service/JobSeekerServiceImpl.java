@@ -234,7 +234,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
             List<EducationalDetails> educationalDetails = educationalDetailsDtos.stream()
                     .map(dto ->  {
                         EducationalDetails seekerEducation =  mapper.map(dto, EducationalDetails.class);
-                        seekerEducation.setJobseeker(seeker);
+                        seekerEducation.setJobSeeker(seeker);
                         return seekerEducation;
                     })
                     .collect(Collectors.toList());
@@ -243,6 +243,41 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         }
 
         return "profile updated succefully";
+    }
+
+    @Override
+    public String deleteProfile(Long jobSeekerId) {
+        JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id Doesn't exists"));
+        for (EducationalDetails eduDetail : seeker.getEduInfo()) {
+            eduDetail.setJobSeeker(null);
+        }
+        for (Skill skill : seeker.getSkills()) {
+            skill.getJobSeekers().remove(seeker);
+        }
+        for (JobApplication jobApp : seeker.getJobApplications()) {
+            jobApp.setJobSeeker(null);
+        }
+
+        jobSeekerRepo.delete(seeker);
+        return "jobseeker removed succefully";
+    }
+
+    @Override
+    public JobSeekerResponseDto getProfile(Long jobSeekerId) {
+        JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id doesn't exists"));
+        JobSeekerResponseDto responseDto = mapper.map(seeker, JobSeekerResponseDto.class);
+
+//        seeker.getJobApplications().forEach(application -> {
+//            responseDto.setApplications(mapper.map(application, JobApplicationResponseDto.class));
+//        });
+        seeker.getSkills().forEach(skill -> {
+            responseDto.setSkills(mapper.map(skill, SkillDto.class));
+        });
+        seeker.getEduInfo().forEach(edu -> {
+            responseDto.setEduInfo(mapper.map(edu, EducationalDetailsDto.class));
+        });
+
+        return responseDto;
     }
 
 

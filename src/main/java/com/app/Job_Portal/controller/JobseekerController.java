@@ -4,6 +4,7 @@ package com.app.Job_Portal.controller;
 import com.app.Job_Portal.dto.JobApplicationResponseDto;
 import com.app.Job_Portal.dto.JobListDto;
 import com.app.Job_Portal.dto.JobSeekerRequestDto;
+import com.app.Job_Portal.dto.JobSeekerResponseDto;
 import com.app.Job_Portal.service.JobSeekerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -161,7 +162,7 @@ public class JobseekerController {
     }
 
     /*
-     *  INCOMPLETE
+     *
      * @Path         /create-profile
      * @param         None
      * @PathVariable  jobSeekerId
@@ -174,5 +175,37 @@ public class JobseekerController {
     @PutMapping("/update-profile/{jobSeekerId}")
     public ResponseEntity<String> updateProfile(@PathVariable Long jobSeekerId, @RequestBody JobSeekerRequestDto seekerDto) {
         return new ResponseEntity<String>(jobSeekerService.updateProfile(seekerDto, jobSeekerId), HttpStatus.OK);
+    }
+
+
+    /*
+     *
+     * @Path         /remove-profile
+     * @param         None
+     * @PathVariable  jobSeekerId
+     * @return        Response Entity with message
+     * Description :  This method returns a message to tell whether profile updated succefully
+     * @DeleteMapping :   Annotation for mapping HTTP Delete requests onto specific handler methods.
+     *
+     */
+
+    @DeleteMapping("/remove-profile/{jobSeekerId}")
+    public ResponseEntity<String> removeProfile(@PathVariable Long jobSeekerId) {
+        return new ResponseEntity<String>(jobSeekerService.deleteProfile(jobSeekerId), HttpStatus.OK);
+    }
+
+
+    /*
+     * @Path         /get-profile
+     * @param         None
+     * @PathVariable  jobSeekerId
+     * @return        JobSeekerResponseDto
+     * Description :  This method returns a jobSeeker's information with given id
+     * @GetMapping :  Annotation for mapping HTTP Get requests onto specific handler methods.
+     */
+
+    @GetMapping("/get-profile/{jobSeekerId}")
+    public JobSeekerResponseDto getProfile(@PathVariable Long jobSeekerId) {
+        return jobSeekerService.getProfile(jobSeekerId);
     }
 }
