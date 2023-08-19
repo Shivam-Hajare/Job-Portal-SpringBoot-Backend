@@ -10,7 +10,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class SkillDto {
-	 private Long skillId;
-	    private String name;
-	    private String description;
+    private Long skillId;
+    private String name;
+    private String description;
+
 }

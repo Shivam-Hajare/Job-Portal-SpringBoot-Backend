@@ -1,0 +1,41 @@
+admin /admin
+
+1] delete hr by id  -> /admin/delete/hr/{id} -> return hr
+
+2] delete jobseeker -> /admin/delete/jobseeker/{id} -> return jobseeker
+
+********************************************************
+
+recruiter -> /recruiter
+
+1] (create) add job  -> /recruiter/addjob -> req.body (-----) , return job
+
+2] (delete) delete job -> /recruiter/delete/{id} -> pathVariable-> id, return job
+
+3] (update) edit job -> /recruiter/update/{id} -> pathVariable-> id, req.body (-----), return job
+
+4] ?? (read) view list of applications -> /recruiter/get/{jobId}/getallApplications -> pathvariable jobId, no req.body, return list of job applications
+
+5] () accept or reject application -> /recruiter/update/application_status -> req.body ( boolean true/false) , return ---//appln id jobseekerId for status
+
+6]
+*****************************************************************
+jobseeker -> /jobseeker
+
+1] ?? (create/update) create profile -> /jobseeker/add/ -> req.body(..) , return profile
+
+2] (read) view all jobs -> /jobseeker/get/all -> return list of all jobs
+
+3] (read) search jobs by job type -> /jobseeker/get/jobtype/{jobType} -> pathvariable = jobType(part,full time) return list of jobs with given job type
+
+4] ? (read) search jobs by job title -> /jobseeker/get/title/{title} -> pathvariable = title( job title ) return list of jobs with given title
+
+5] (read) view applied jobs -> /jobseeker/get/applied/ ->  return list of applied jobs
+
+6] (read) view accepted jobs -> /jobseeker/get/accepted -> return list of jobs
+
+
+
+
+
+
