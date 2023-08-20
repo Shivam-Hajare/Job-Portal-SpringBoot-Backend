@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -31,21 +32,24 @@ public class Recruiter {
     @Column(name = "recruiter_id")
     private Long recruiterId;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String firstName;
     
-    @Column(nullable = false)
+    @Column
     private String lastName;
     
-    @Column(nullable = false)
+    @Column
     private String phoneNo;
     
     @Column(nullable = false)
     private String recruiterBio;
 
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private ApplicationUser user;
     
     @ManyToOne
     @JoinColumn(name = "admin_id")

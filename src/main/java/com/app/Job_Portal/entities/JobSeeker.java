@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -37,19 +38,17 @@ public class JobSeeker {
     @Column(name = "job_seeker_id")
     private Long jobSeekerId;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String firstName;
 
-    @Column(nullable = false)
+    @Column
     private String lastName;
 
-    @Column(nullable = false)
-    private String password;
     
-    @Column(nullable = false)
+    @Column
     @ColumnDefault("0")
     private int yearOfExperience;
 
@@ -71,6 +70,10 @@ public class JobSeeker {
     @JoinColumn(name = "admin_id")
     private Admin admin;
    
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private ApplicationUser user;
+
 
 }
 

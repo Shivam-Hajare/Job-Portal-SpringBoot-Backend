@@ -53,7 +53,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 	
 	public List<JobListDto> getAllJobsPosted(Long recruiterId) {
 		Recruiter recruiter= recruiterRepository.findById(recruiterId).orElseThrow(
-				() -> new ResourceNotFoundException("recruiter not found with ID: " + recruiterId));;
+				() -> new ResourceNotFoundException("recruiter not found with ID: " + recruiterId));
 		
 				List<JobListDto> jobList=new ArrayList<JobListDto>();
 				

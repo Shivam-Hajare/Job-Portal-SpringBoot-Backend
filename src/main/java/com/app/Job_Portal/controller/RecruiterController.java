@@ -23,12 +23,16 @@ import com.app.Job_Portal.dto.UpdateJobRequestDto;
 import com.app.Job_Portal.service.RecruiterServiceImpl;
 
 @RestController
-@RequestMapping("/recruiters")
+@RequestMapping("/recruiter")
 public class RecruiterController {
 
 	@Autowired
 	private RecruiterServiceImpl reServiceImpl;
 	
+	@GetMapping("/")
+    public String helloUserController(){
+        return "Recruiter Testing access level";
+    }
 	
 	 @GetMapping("/AllJobsPosted/{RecruiterId}")
 	    public ResponseEntity<?>  getAllJobsPosted(@PathVariable(value = "RecruiterId") Long RecruiterId) {
