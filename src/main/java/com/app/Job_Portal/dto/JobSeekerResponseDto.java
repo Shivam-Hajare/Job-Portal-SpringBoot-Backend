@@ -13,6 +13,9 @@ import java.util.List;
 @Setter
 @ToString
 public class JobSeekerResponseDto {
+	
+	private Long jobSeekerId;
+	
     private String email;
 
     private String firstName;
