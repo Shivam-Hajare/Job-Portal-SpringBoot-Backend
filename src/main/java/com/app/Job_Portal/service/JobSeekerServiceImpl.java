@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class JobSeekerServiceImpl implements JobSeekerService {
-
     @Autowired
     private JobSeekerRepository jobSeekerRepo;
 
@@ -204,6 +204,17 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     @Override
     public String createProfile(JobSeekerRequestDto seekerDto) {
         JobSeeker seekerProfile = mapper.map(seekerDto, JobSeeker.class);
+
+        seekerDto.getSkills().forEach(skill -> {
+            seekerProfile.getSkills().add(mapper.map(skill, Skill.class));
+        });
+
+        seekerDto.getEduInfo().forEach(edu -> {
+            seekerProfile.getEduInfo().add(mapper.map(edu, EducationalDetails.class));
+        });
+
+
+       // seekerProfile.setAdmin();
         return "null";
     }
 

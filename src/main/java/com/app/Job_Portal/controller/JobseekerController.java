@@ -6,11 +6,18 @@ import com.app.Job_Portal.dto.JobListDto;
 import com.app.Job_Portal.dto.JobSeekerRequestDto;
 import com.app.Job_Portal.dto.JobSeekerResponseDto;
 import com.app.Job_Portal.service.JobSeekerService;
+import com.app.Job_Portal.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -20,6 +27,8 @@ public class JobseekerController {
     @Autowired
     private JobSeekerService jobSeekerService;
 
+    @Autowired
+    private ResumeService resumeService;
     /*
      *
      * @Path        /get/all
@@ -148,10 +157,10 @@ public class JobseekerController {
     /*
      *  INCOMPLETE
      * @Path         /create-profile
-     * @param         None
+     * @param         resume
      * @PathVariable  None
      * @return        Response Entity with message
-     * Description :  This method returns a message to tell whether profile created succefully
+     * Description :  This method returns a message to tell whether profile created succefully or not
      * @PostMapping :   Annotation for mapping HTTP POST requests onto specific handler methods.
      *
      */
@@ -163,7 +172,7 @@ public class JobseekerController {
 
     /*
      *
-     * @Path         /create-profile
+     * @Path         /update-profile
      * @param         None
      * @PathVariable  jobSeekerId
      * @return        Response Entity with message
@@ -207,5 +216,36 @@ public class JobseekerController {
     @GetMapping("/get-profile/{jobSeekerId}")
     public JobSeekerResponseDto getProfile(@PathVariable Long jobSeekerId) {
         return jobSeekerService.getProfile(jobSeekerId);
+    }
+
+
+    /*
+     * @Path         /get-profile/resume/{jobSeekerId}
+     * @param         None
+     * @PathVariable  jobSeekerId
+     * @return        InputStream
+     * Description :  This method returns a resume pdf as inputStream
+     * @GetMapping :  Annotation for mapping HTTP Get requests onto specific handler methods.
+     */
+
+    @GetMapping("/get-profile/resume/{jobSeekerId}")
+    public void getResume(@PathVariable Long jobSeekerId, HttpServletResponse res) throws IOException {
+        InputStream resource = resumeService.getResume(jobSeekerId);
+        res.setContentType(String.valueOf(MediaType.APPLICATION_PDF));
+        StreamUtils.copy(resource, res.getOutputStream());
+    }
+
+    /*
+     * @Path         /get-profile/resume/{jobSeekerId}
+     * @param         None
+     * @PathVariable  jobSeekerId
+     * @return        InputStream
+     * Description :  This method returns a resume pdf as inputStream
+     * @GetMapping :  Annotation for mapping HTTP Get requests onto specific handler methods.
+     */
+
+    @GetMapping("/upload/resume/{jobSeekerId}")
+    public ResponseEntity<String> uploadResume(@PathVariable Long jobSeekerId,@RequestParam MultipartFile resume) throws IOException {
+        return new ResponseEntity<String>(resumeService.uploadResume(resume,jobSeekerId), HttpStatus.OK);
     }
 }
