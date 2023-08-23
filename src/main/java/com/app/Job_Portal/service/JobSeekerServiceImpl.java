@@ -260,7 +260,7 @@ System.out.println("req ss");
         JobSeeker persistedSeeker = persistedSeekerHolder.get();
 
         seekerDto.getSkills().forEach(skill -> {
-            Optional<Skill>  skillHolder = skillRepo.findByName(skill.getName().toLowerCase());
+            Optional<Skill>  skillHolder = skillRepo.findByName(skill.getName());
             skillHolder.ifPresent(value -> persistedSeeker.getSkills().add(value));
         });
 
@@ -290,7 +290,7 @@ System.out.println("req ss");
         if (skillDtos != null) {
 //            List<Skill> skills = skillRepo.findAllByNameIn(skillDtos.stream().map(SkillDto::getName).collect(Collectors.toList()));
             List<String> skillNames = skillDtos.stream()
-                    .map(skillDto -> skillDto.getName().toLowerCase())
+                    .map(skillDto -> skillDto.getName())
                     .collect(Collectors.toList());
 
             List<Skill> skills = skillRepo.findAllByNameIn(skillNames);
