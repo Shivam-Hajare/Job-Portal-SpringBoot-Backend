@@ -19,6 +19,7 @@ public class RecruiterDto {
     private String firstName;
     private String lastName;
     private String phoneNo;
+    private String companyName;
     
     private List<JobListDto> jobListings= new ArrayList<>();
 	

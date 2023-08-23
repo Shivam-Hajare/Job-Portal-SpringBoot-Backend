@@ -1,6 +1,8 @@
 package com.app.Job_Portal.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.app.Job_Portal.entities.JobType;
 import com.app.Job_Portal.entities.Status;
@@ -15,6 +17,8 @@ import lombok.ToString;
 public class JobListDto {
 	
 	private Long jobId;
+	
+	 private String companyName;
 
 	private String jobTitle;
 
@@ -32,5 +36,7 @@ public class JobListDto {
 
 	//private Recruiter postedBy;
 	private String recruiterName;
+	
+ private List<SkillDto> skillsForJob = new ArrayList<>();
 
 }

@@ -49,6 +49,13 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                 .map((job) -> {
                     JobListDto jobHolder = mapper.map(job, JobListDto.class);
                     jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+                    jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
+
+                    List<Skill> listOfSkills = jobRepo.findSkillsByJobId(job.getJobId());
+                    listOfSkills.forEach(skill -> {
+                        jobHolder.getSkillsForJob().add(mapper.map(skill, SkillDto.class));
+                    });
+
                     return jobHolder;
                 })
                 .collect(Collectors.toList());
@@ -64,11 +71,19 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         return jobLists.stream()
                 .map((job) -> {
-                    JobListDto jobHolder = null;
+                    JobListDto jobHolder;
                     if (job.getJobType().equals(typeOfJob)) {
                         jobHolder = mapper.map(job, JobListDto.class);
                         jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+                        jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
 
+                        List<Skill> listOfSkills = jobRepo.findSkillsByJobId(job.getJobId());
+                        listOfSkills.forEach(skill -> {
+                            jobHolder.getSkillsForJob().add(mapper.map(skill, SkillDto.class));
+                        });
+
+                    } else {
+                        jobHolder = null;
                     }
                     return jobHolder;
                 })
@@ -84,11 +99,19 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         return jobLists.stream()
                 .map((job) -> {
-                    JobListDto jobHolder = null;
+                    JobListDto jobHolder;
                     if (job.getJobTitle().equals(title)) {
                         jobHolder = mapper.map(job, JobListDto.class);
                         jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+                        jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
 
+                        List<Skill> listOfSkills = jobRepo.findSkillsByJobId(job.getJobId());
+                        listOfSkills.forEach(skill -> {
+                            jobHolder.getSkillsForJob().add(mapper.map(skill, SkillDto.class));
+                        });
+
+                    } else {
+                        jobHolder = null;
                     }
                     return jobHolder;
                 })
@@ -103,16 +126,24 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id not found"));
 
         List<JobApplication> listOfApplications = seeker.getJobApplications();
-
+System.out.println("req ss");
         return listOfApplications.stream()
                 .map((application) -> {
                     JobApplicationResponseDto responseDtoHolder = mapper.map(application.getJob(), JobApplicationResponseDto.class);
 
                     responseDtoHolder.setApplicationId(application.getApplicationId());
+                    responseDtoHolder.setCompanyName(application.getJob().getPostedBy().getCompanyName());
                     responseDtoHolder.setAppliedDate(application.getAppliedDate());
                     responseDtoHolder.setStatus(application.getStatus());
                     responseDtoHolder.setPostedBy(application.getJob().getPostedBy().getFirstName() + " " + application.getJob().getPostedBy().getLastName());
                     responseDtoHolder.setSkillsForJob(application.getJob().getSkills());
+                    
+                    List<Skill> listOfSkills = jobRepo.findSkillsByJobId(responseDtoHolder.getJobId());
+                    listOfSkills.forEach(skill -> {
+                        System.out.println(skill.getName());
+                        responseDtoHolder.getSkillsRequired().add(mapper.map(skill, SkillDto.class));
+                    });
+                    
                     return responseDtoHolder;
                 })
                 .collect(Collectors.toList());
@@ -130,10 +161,16 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                     JobApplicationResponseDto responseDtoHolder = mapper.map(application.getJob(), JobApplicationResponseDto.class);
 
                     responseDtoHolder.setApplicationId(application.getApplicationId());
+                    responseDtoHolder.setCompanyName(application.getJob().getPostedBy().getCompanyName());
                     responseDtoHolder.setAppliedDate(application.getAppliedDate());
                     responseDtoHolder.setStatus(application.getStatus());
                     responseDtoHolder.setPostedBy(application.getJob().getPostedBy().getFirstName() + " " + application.getJob().getPostedBy().getLastName());
-                    responseDtoHolder.setSkillsForJob(application.getJob().getSkills());
+
+                    List<Skill> listOfSkills = jobRepo.findSkillsByJobId(responseDtoHolder.getJobId());
+                    listOfSkills.forEach(skill -> {
+                        System.out.println(skill.getName());
+                        responseDtoHolder.getSkillsRequired().add(mapper.map(skill, SkillDto.class));
+                    });
                     return responseDtoHolder;
                 })
                 .filter(application -> application.getStatus().toString().equals("ACCEPTED"))
@@ -251,7 +288,12 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         // Update skills
         List<SkillDto> skillDtos = seekerDto.getSkills();
         if (skillDtos != null) {
-            List<Skill> skills = skillRepo.findAllByNameIn(skillDtos.stream().map(SkillDto::getName).collect(Collectors.toList()));
+//            List<Skill> skills = skillRepo.findAllByNameIn(skillDtos.stream().map(SkillDto::getName).collect(Collectors.toList()));
+            List<String> skillNames = skillDtos.stream()
+                    .map(skillDto -> skillDto.getName())
+                    .collect(Collectors.toList());
+
+            List<Skill> skills = skillRepo.findAllByNameIn(skillNames);
             seeker.setSkills(skills);
         }
 
