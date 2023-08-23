@@ -17,7 +17,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "skills")@Getter
+@Table(name = "skills")
+@Getter
 @Setter
 @AllArgsConstructor
 public class Skill {

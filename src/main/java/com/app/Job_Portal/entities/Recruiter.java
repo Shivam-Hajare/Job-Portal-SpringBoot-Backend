@@ -2,6 +2,7 @@ package com.app.Job_Portal.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,8 +52,11 @@ public class Recruiter {
     @JoinColumn(name = "admin_id")
     private Admin admin;
 
-    @OneToMany(mappedBy = "postedBy",fetch =FetchType.EAGER )
+    @OneToMany(mappedBy = "postedBy",fetch =FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true )
     private List<Job> jobListings;
+
+    
+    //    @OneToMany(mappedBy = "jobSeeker",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 
     // Constructors, getters, and setters
 

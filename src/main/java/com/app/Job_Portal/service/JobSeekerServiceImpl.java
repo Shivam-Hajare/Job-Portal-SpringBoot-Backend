@@ -251,7 +251,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         // Update skills
         List<SkillDto> skillDtos = seekerDto.getSkills();
         if (skillDtos != null) {
-            List<Skill> skills = skillRepo.findAllByNameIn(skillDtos.stream().map(SkillDto::getName).toList());
+            List<Skill> skills = skillRepo.findAllByNameIn(skillDtos.stream().map(SkillDto::getName).collect(Collectors.toList()));
             seeker.setSkills(skills);
         }
 
