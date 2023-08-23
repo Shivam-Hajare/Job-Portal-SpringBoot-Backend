@@ -285,18 +285,6 @@ System.out.println("req ss");
         seeker.setLastName(seekerDto.getLastName());
         seeker.setYearOfExperience(seekerDto.getYearOfExperience());
 
-        // Update skills
-//        List<SkillDto> skillDtosList = seekerDto.getSkills();
-//        if (skillDtos != null) {
-////            List<Skill> skills = skillRepo.findAllByNameIn(skillDtos.stream().map(SkillDto::getName).collect(Collectors.toList()));
-//            List<String> skillNames = skillDtos.stream()
-//                    .map(skillDto -> skillDto.getName())
-//                    .collect(Collectors.toList());
-//
-//            List<Skill> skills = skillRepo.findAllByNameIn(skillNames);
-//            seeker.setSkills(skills);
-//        }
-
         List<SkillDto> skillDtosList = seekerDto.getSkills();
         List<Skill> skills = new ArrayList<>();
         for (SkillDto skillDto : skillDtosList) {
