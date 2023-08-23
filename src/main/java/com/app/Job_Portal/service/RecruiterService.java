@@ -6,18 +6,22 @@ import java.util.Map;
 import com.app.Job_Portal.dto.JobApplicationsListDto;
 import com.app.Job_Portal.dto.JobListDto;
 import com.app.Job_Portal.dto.PostJobRequestDto;
+import com.app.Job_Portal.dto.RecruiterRequestDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
 
 public interface RecruiterService {
 
-	public List<JobListDto> getAllJobsPosted(Long recruiterId);
+	 List<JobListDto> getAllJobsPosted(Long recruiterId);
 	
 	String postJob(PostJobRequestDto postJobRequestDto);
 	
 	Map<String, Object> deleteJobByRecruiter(Long jobId, Long recruiterId);
-	public String updateJobByRecruiter(Long jobId, UpdateJobRequestDto updateJobRequestDto, Long recruiterId);
 	
-	public String updateApplicationStatusByRecruiter(Long jobId, Long jobSeekerId, String jobStatus, Long recruiterId);
+	 String updateJobByRecruiter(Long jobId, UpdateJobRequestDto updateJobRequestDto, Long recruiterId);
 	
-	 public List<JobApplicationsListDto> getListOfJobApplications(Long jobId, Long loggedInRecruiterId);
+	 String updateApplicationStatusByRecruiter(Long jobId, Long jobSeekerId, String jobStatus, Long recruiterId);
+	
+	  List<JobApplicationsListDto> getListOfJobApplications(Long jobId, Long loggedInRecruiterId);
+
+	  String updateProfile(RecruiterRequestDto recruiterDto, Long recuiterId);
 }

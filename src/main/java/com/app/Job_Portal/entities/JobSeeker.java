@@ -1,3 +1,4 @@
+
 package com.app.Job_Portal.entities;
 
 import lombok.*;

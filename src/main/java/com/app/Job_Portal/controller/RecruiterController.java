@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.app.Job_Portal.dto.JobApplicationsListDto;
 import com.app.Job_Portal.dto.PostJobRequestDto;
+import com.app.Job_Portal.dto.RecruiterRequestDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
 import com.app.Job_Portal.service.RecruiterServiceImpl;
 
@@ -96,4 +96,11 @@ public class RecruiterController {
 	        List<JobApplicationsListDto> jobAppList = reServiceImpl.getListOfJobApplications(jobId, recruiterId);
 	        return ResponseEntity.ok(jobAppList);
 	    }
+	    
+	    @PutMapping("/update-profile/{recruiterId}")
+	    public ResponseEntity<String> updateProfile(@PathVariable Long recruiterId, @RequestBody RecruiterRequestDto recruiterDto)
+	    {
+	    return new ResponseEntity<String>(reServiceImpl.updateProfile(recruiterDto, recruiterId),HttpStatus.OK);	
+	    }
+	    
 }
