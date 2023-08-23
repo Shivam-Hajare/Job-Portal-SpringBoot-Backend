@@ -46,4 +46,8 @@ public class Admin {
     public Admin() {
         // Default constructor
     }
+
+    public Admin(Long id) {
+        this.adminId = id;
+    }
 }

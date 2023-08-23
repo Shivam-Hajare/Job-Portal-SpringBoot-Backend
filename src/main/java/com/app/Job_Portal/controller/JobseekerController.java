@@ -29,14 +29,13 @@ public class JobseekerController {
 
     @Autowired
     private ResumeService resumeService;
+
     /*
-     *
      * @Path        /get/all
      * @param        None
      * @return       Response Entity of JobListDto type
      * Description : This method return List of all jobs with JobListDto.
      * @GetMapping : Annotation for mapping HTTP GET requests onto specific handler methods.
-     *
      */
 
     @GetMapping("/get/all")
@@ -46,14 +45,12 @@ public class JobseekerController {
 
 
     /*
-     *
      * @Path         /get/jobtype/{jobType}
      * @param         None
      * @PathVariable  jobType
      * @return        Response Entity of JobListDto type
      * Description :  This method return List of jobs with given job type
      * @GetMapping :   Annotation for mapping HTTP GET requests onto specific handler methods.
-     *
      */
 
     @GetMapping("/get/jobtype/{jobType}")
@@ -65,14 +62,12 @@ public class JobseekerController {
 
 
     /*
-     *
      * @Path         /get/title/{title}
      * @param         None
      * @PathVariable  title
      * @return        Response Entity of JobListDto type
      * Description :  This method return List of jobs with given title type
      * @GetMapping :   Annotation for mapping HTTP GET requests onto specific handler methods.
-     *
      */
 
     @GetMapping("/get/title/{title}")
@@ -84,14 +79,12 @@ public class JobseekerController {
 
 
     /*
-     *
      * @Path         /get/applied/{jobSeekerId}
      * @param         None
      * @PathVariable  jobSeekerId
      * @return        Response Entity of JobApplicationResponseDto type
      * Description :  This method return List of applied jobs
      * @GetMapping :   Annotation for mapping HTTP GET requests onto specific handler methods.
-     *
      */
 
     @GetMapping("/get/applied/{jobSeekerId}")
@@ -103,14 +96,12 @@ public class JobseekerController {
 
 
     /*
-     *
      * @Path         /get/accepted/{jobSeekerId}
      * @param         None
      * @PathVariable  jobSeekerId
      * @return        Response Entity of JobApplicationResponseDto type
      * Description :  This method return List of accepted jobs
      * @GetMapping :   Annotation for mapping HTTP GET requests onto specific handler methods.
-     *
      */
 
     @GetMapping("/get/accepted/{jobSeekerId}")
@@ -122,14 +113,12 @@ public class JobseekerController {
 
 
     /*
-     *
      * @Path         /apply/{jobId}/{jobSeekerId}
      * @param         None
      * @PathVariable  jobId, jobSeekerId
      * @return        Response Entity with message
      * Description :  This method returns a message to tell whether applied succefully or not
      * @GetMapping :   Annotation for mapping HTTP GET requests onto specific handler methods.
-     *
      */
 
     @GetMapping("/apply/{jobId}/{jobSeekerId}")
@@ -139,14 +128,12 @@ public class JobseekerController {
 
 
     /*
-     *
      * @Path         /withdraw-application/{jobId}/{jobSeekerId}
      * @param         None
      * @PathVariable  jobId, jobSeekerId
      * @return        Response Entity with message
      * Description :  This method returns a message to tell whether cancellation is succefull or not
      * @DeleteMapping :  Annotation for mapping HTTP DELETE requests onto specific handler methods.
-     *
      */
 
     @DeleteMapping("/withdraw-application/{jobId}/{jobSeekerId}")
@@ -155,14 +142,12 @@ public class JobseekerController {
     }
 
     /*
-     *  INCOMPLETE
      * @Path         /create-profile
      * @param         resume
      * @PathVariable  None
      * @return        Response Entity with message
      * Description :  This method returns a message to tell whether profile created succefully or not
      * @PostMapping :   Annotation for mapping HTTP POST requests onto specific handler methods.
-     *
      */
 
     @PostMapping("/create-profile")
@@ -171,14 +156,12 @@ public class JobseekerController {
     }
 
     /*
-     *
      * @Path         /update-profile
      * @param         None
      * @PathVariable  jobSeekerId
      * @return        Response Entity with message
      * Description :  This method returns a message to tell whether profile updated succefully
      * @PutMapping:   Annotation for mapping HTTP POST requests onto specific handler methods.
-     *
      */
 
     @PutMapping("/update-profile/{jobSeekerId}")
@@ -188,14 +171,12 @@ public class JobseekerController {
 
 
     /*
-     *
      * @Path         /remove-profile
      * @param         None
      * @PathVariable  jobSeekerId
      * @return        Response Entity with message
      * Description :  This method returns a message to tell whether profile updated succefully
      * @DeleteMapping :   Annotation for mapping HTTP Delete requests onto specific handler methods.
-     *
      */
 
     @DeleteMapping("/remove-profile/{jobSeekerId}")
@@ -236,7 +217,7 @@ public class JobseekerController {
     }
 
     /*
-     * @Path         /get-profile/resume/{jobSeekerId}
+     * @Path         /upload/resume/{jobSeekerId}
      * @param         None
      * @PathVariable  jobSeekerId
      * @return        InputStream
@@ -245,7 +226,23 @@ public class JobseekerController {
      */
 
     @GetMapping("/upload/resume/{jobSeekerId}")
-    public ResponseEntity<String> uploadResume(@PathVariable Long jobSeekerId,@RequestParam MultipartFile resume) throws IOException {
-        return new ResponseEntity<String>(resumeService.uploadResume(resume,jobSeekerId), HttpStatus.OK);
+    public ResponseEntity<String> uploadResume(@PathVariable Long jobSeekerId, @RequestParam MultipartFile resume) throws IOException {
+        return new ResponseEntity<String>(resumeService.uploadResume(resume, jobSeekerId), HttpStatus.OK);
     }
+
+    /*
+     * @Path         /remove/resume/{jobSeekerId}
+     * @param         None
+     * @PathVariable  jobSeekerId
+     * @return        ResponseEntity<String>
+     * Description :  This method returns a String message
+     * @GetMapping :  Annotation for mapping HTTP Get requests onto specific handler methods.
+     */
+
+    @DeleteMapping("/remove/resume/{jobSeekerId}")
+    public ResponseEntity<String> removeResume(@PathVariable Long jobSeekerId) {
+        return new ResponseEntity<String>(resumeService.removeResume(jobSeekerId), HttpStatus.OK);
+    }
+
+
 }

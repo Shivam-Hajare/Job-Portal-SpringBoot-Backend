@@ -11,4 +11,6 @@ public interface ResumeService {
     public String uploadResume(MultipartFile file, Long jobSeekerId) throws IOException;
 
     public InputStream getResume(Long id);
+
+    public String removeResume(Long jobseekerId);
 }

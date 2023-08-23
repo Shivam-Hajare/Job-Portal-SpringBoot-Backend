@@ -9,12 +9,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +33,9 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
     @Autowired
     private EducationalDetailsRepository educationalDetailsRepo;
+
+    @Autowired
+    private ResumeRepository resumeRepo;
 
     @Autowired
     private ModelMapper mapper;
@@ -146,10 +148,10 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         Job job = jobRepo.findById(jobId).orElseThrow(() -> new ResourceNotFoundException("selected Job doesn't exists"));
 
         // check if already applied for the job
-        for(JobApplication applicationHolder: job.getApplications()) {
-            if(applicationHolder.getJobSeeker().getJobSeekerId().equals(seeker.getJobSeekerId())) {
-                 return "Already applied for this job";
-             }
+        for (JobApplication applicationHolder : job.getApplications()) {
+            if (applicationHolder.getJobSeeker().getJobSeekerId().equals(seeker.getJobSeekerId())) {
+                return "Already applied for this job";
+            }
         }
 
         JobApplication application = new JobApplication();
@@ -175,14 +177,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         JobApplication application = new JobApplication();
 
         // check applied or not
-        for(JobApplication applicationHolder: job.getApplications()) {
-            if(applicationHolder.getJobSeeker().getJobSeekerId().equals(seeker.getJobSeekerId())) {
-               // pending application can be withdrawn
-                if(applicationHolder.getStatus().equals(Status.PENDING)) {
+        for (JobApplication applicationHolder : job.getApplications()) {
+            if (applicationHolder.getJobSeeker().getJobSeekerId().equals(seeker.getJobSeekerId())) {
+                // pending application can be withdrawn
+                if (applicationHolder.getStatus().equals(Status.PENDING)) {
                     application = applicationHolder;
                     removeAnApplication = true;
                     break;
-                }else {
+                } else {
                     // already selected or rejected application cannot be withdrawn
                     return "cannot withdrawn already selected or rejected application";
                 }
@@ -191,7 +193,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         }
 
         // application exists and can be removed
-        if(removeAnApplication) {
+        if (removeAnApplication) {
             seeker.withDrawAnApplication(application, job);
             return "application withdrawn succefully";
         }
@@ -200,29 +202,47 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         return "selected application does not exists ";
     }
 
-//  INCOMPLETE
+    //  INCOMPLETE
     @Override
     public String createProfile(JobSeekerRequestDto seekerDto) {
-        JobSeeker seekerProfile = mapper.map(seekerDto, JobSeeker.class);
+        JobSeeker seekerProfile = new JobSeeker();
+        seekerProfile.setFirstName(seekerDto.getFirstName());
+        seekerProfile.setLastName(seekerDto.getLastName());
+        seekerProfile.setEmail(seekerDto.getEmail());
+        seekerProfile.setYearOfExperience(seekerDto.getYearOfExperience());
+        seekerProfile.setAdmin(new Admin((long)1));
+        jobSeekerRepo.save(seekerProfile);
+
+        seekerProfile.getSkills().forEach(s -> System.out.println("skillllllllllll " + s.getName()));
+        Optional<JobSeeker> persistedSeekerHolder = jobSeekerRepo.findByEmail(seekerProfile.getEmail());
+
+        if (persistedSeekerHolder.isEmpty()) {
+            return "something went wrong!! not able to save ";
+        }
+
+        JobSeeker persistedSeeker = persistedSeekerHolder.get();
 
         seekerDto.getSkills().forEach(skill -> {
-            seekerProfile.getSkills().add(mapper.map(skill, Skill.class));
+            Optional<Skill>  skillHolder = skillRepo.findByName(skill.getName());
+            skillHolder.ifPresent(value -> persistedSeeker.getSkills().add(value));
         });
 
         seekerDto.getEduInfo().forEach(edu -> {
-            seekerProfile.getEduInfo().add(mapper.map(edu, EducationalDetails.class));
+            EducationalDetails educationalDetailsHolder = mapper.map(edu, EducationalDetails.class);
+            educationalDetailsHolder.setJobSeeker(persistedSeeker);
+            persistedSeeker.getEduInfo().add(educationalDetailsHolder);
         });
 
 
-       // seekerProfile.setAdmin();
-        return "null";
+        jobSeekerRepo.save(seekerProfile);
+        return "profile created succefully";
     }
 
 
     @Override
     public String updateProfile(JobSeekerRequestDto seekerDto, Long jobSeekerId) {
 
-        JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(()-> new ResourceNotFoundException("job seeker with given id not found"));
+        JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id not found"));
 
         seeker.setFirstName(seekerDto.getFirstName());
         seeker.setLastName(seekerDto.getLastName());
@@ -243,8 +263,8 @@ public class JobSeekerServiceImpl implements JobSeekerService {
             seeker.getEduInfo().clear();
 
             List<EducationalDetails> educationalDetails = educationalDetailsDtos.stream()
-                    .map(dto ->  {
-                        EducationalDetails seekerEducation =  mapper.map(dto, EducationalDetails.class);
+                    .map(dto -> {
+                        EducationalDetails seekerEducation = mapper.map(dto, EducationalDetails.class);
                         seekerEducation.setJobSeeker(seeker);
                         return seekerEducation;
                     })
@@ -269,6 +289,10 @@ public class JobSeekerServiceImpl implements JobSeekerService {
             jobApp.setJobSeeker(null);
         }
 
+        Optional<Resume> resume =  resumeRepo.findResumeByJobSeekerId(jobSeekerId);
+        if(resume.isPresent()) {
+            resumeRepo.delete(resume.get());
+        }
         jobSeekerRepo.delete(seeker);
         return "jobseeker removed succefully";
     }
@@ -290,6 +314,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         return responseDto;
     }
+
 
 
 }
