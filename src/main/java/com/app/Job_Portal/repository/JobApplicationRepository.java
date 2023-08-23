@@ -6,4 +6,5 @@ import com.app.Job_Portal.entities.JobApplication;
 
 public interface JobApplicationRepository extends JpaRepository<JobApplication, Long> {
 
+
 }
