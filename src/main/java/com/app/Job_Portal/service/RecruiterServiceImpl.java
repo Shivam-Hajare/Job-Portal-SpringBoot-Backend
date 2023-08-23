@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.app.Job_Portal.dto.JobApplicationsListDto;
 import com.app.Job_Portal.dto.JobListDto;
 import com.app.Job_Portal.dto.PostJobRequestDto;
+import com.app.Job_Portal.dto.RecruiterRequestDto;
 import com.app.Job_Portal.dto.SkillDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
 import com.app.Job_Portal.entities.Job;
@@ -202,4 +203,23 @@ public class RecruiterServiceImpl implements RecruiterService{
 	        
 	        return jobAppListDto;
 	    }
+	 @Override
+	 public String updateProfile(RecruiterRequestDto recruiterDto, Long recuiterId)
+	 {
+		 
+		 Recruiter recruiter=recruiterRepository.findById(recuiterId).orElseThrow(()->new ResourceNotFoundException("job seeker with given id not found"));
+		 
+		 recruiter.setFirstName(recruiterDto.getFirstName());
+		 recruiter.setLastName(recruiterDto.getLastName());
+		 recruiter.setPhoneNo(recruiterDto.getPhoneNo());
+		 recruiter.setRecruiterBio(recruiterDto.getRecruiterBio());
+		 
+		 recruiterRepository.save(recruiter);
+		 
+		 return "profile updated succefully !!!";
+		 
+		 
+		 
+		 
+	 }
 }
