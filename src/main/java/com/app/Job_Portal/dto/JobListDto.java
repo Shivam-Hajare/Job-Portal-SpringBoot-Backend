@@ -37,6 +37,6 @@ public class JobListDto {
 	//private Recruiter postedBy;
 	private String recruiterName;
 	
- private List<String> skillsForJob = new ArrayList<>();
+ private List<SkillDto> skillsForJob = new ArrayList<>();
 
 }
