@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -250,7 +251,6 @@ System.out.println("req ss");
         seekerProfile.setAdmin(new Admin((long)1));
         jobSeekerRepo.save(seekerProfile);
 
-        seekerProfile.getSkills().forEach(s -> System.out.println("skillllllllllll " + s.getName()));
         Optional<JobSeeker> persistedSeekerHolder = jobSeekerRepo.findByEmail(seekerProfile.getEmail());
 
         if (persistedSeekerHolder.isEmpty()) {
@@ -260,7 +260,7 @@ System.out.println("req ss");
         JobSeeker persistedSeeker = persistedSeekerHolder.get();
 
         seekerDto.getSkills().forEach(skill -> {
-            Optional<Skill>  skillHolder = skillRepo.findByName(skill.getName());
+            Optional<Skill>  skillHolder = skillRepo.findBySkillId(skill.getSkillId());
             skillHolder.ifPresent(value -> persistedSeeker.getSkills().add(value));
         });
 
@@ -286,16 +286,27 @@ System.out.println("req ss");
         seeker.setYearOfExperience(seekerDto.getYearOfExperience());
 
         // Update skills
-        List<SkillDto> skillDtos = seekerDto.getSkills();
-        if (skillDtos != null) {
-//            List<Skill> skills = skillRepo.findAllByNameIn(skillDtos.stream().map(SkillDto::getName).collect(Collectors.toList()));
-            List<String> skillNames = skillDtos.stream()
-                    .map(skillDto -> skillDto.getName())
-                    .collect(Collectors.toList());
+//        List<SkillDto> skillDtosList = seekerDto.getSkills();
+//        if (skillDtos != null) {
+////            List<Skill> skills = skillRepo.findAllByNameIn(skillDtos.stream().map(SkillDto::getName).collect(Collectors.toList()));
+//            List<String> skillNames = skillDtos.stream()
+//                    .map(skillDto -> skillDto.getName())
+//                    .collect(Collectors.toList());
+//
+//            List<Skill> skills = skillRepo.findAllByNameIn(skillNames);
+//            seeker.setSkills(skills);
+//        }
 
-            List<Skill> skills = skillRepo.findAllByNameIn(skillNames);
-            seeker.setSkills(skills);
+        List<SkillDto> skillDtosList = seekerDto.getSkills();
+        List<Skill> skills = new ArrayList<>();
+        for (SkillDto skillDto : skillDtosList) {
+
+            if(skillRepo.findById(skillDto.getSkillId()).isPresent()) {
+                skills.add(skillRepo.findBySkillId(skillDto.getSkillId()).get());
+            }
+
         }
+        seeker.setSkills(skills);
 
         // Update educational details
         List<EducationalDetailsDto> educationalDetailsDtos = seekerDto.getEduInfo();
