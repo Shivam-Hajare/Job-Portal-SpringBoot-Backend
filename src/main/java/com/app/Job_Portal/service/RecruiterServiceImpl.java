@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -60,10 +61,15 @@ public class RecruiterServiceImpl implements RecruiterService{
 				recruiter.getJobListings().forEach(job->{
 					JobListDto newJob=mapper.map(job, JobListDto.class);
 					newJob.setRecruiterName(recruiter.getFirstName()+" "+recruiter.getLastName());
+					//set all skills to newJob skills using custome query
+					List<String> skillsDtos=skillRepository.findSkillNamesByJobId(job.getJobId());
+					newJob.setSkillsForJob(skillsDtos);
 					jobList.add(newJob);
 				});
 		return jobList;
 	}
+
+
 	
 	
 	@Override
@@ -202,4 +208,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 	        
 	        return jobAppListDto;
 	    }
+
+
+
 }
