@@ -49,6 +49,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                 .map((job) -> {
                     JobListDto jobHolder = mapper.map(job, JobListDto.class);
                     jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+                    jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
                     return jobHolder;
                 })
                 .collect(Collectors.toList());
@@ -68,6 +69,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                     if (job.getJobType().equals(typeOfJob)) {
                         jobHolder = mapper.map(job, JobListDto.class);
                         jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+                        jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
 
                     }
                     return jobHolder;
@@ -88,6 +90,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                     if (job.getJobTitle().equals(title)) {
                         jobHolder = mapper.map(job, JobListDto.class);
                         jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+                        jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
 
                     }
                     return jobHolder;
@@ -103,16 +106,25 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id not found"));
 
         List<JobApplication> listOfApplications = seeker.getJobApplications();
-
+System.out.println("req ss");
         return listOfApplications.stream()
                 .map((application) -> {
                     JobApplicationResponseDto responseDtoHolder = mapper.map(application.getJob(), JobApplicationResponseDto.class);
 
                     responseDtoHolder.setApplicationId(application.getApplicationId());
+                    responseDtoHolder.setCompanyName(application.getJob().getPostedBy().getCompanyName());
                     responseDtoHolder.setAppliedDate(application.getAppliedDate());
                     responseDtoHolder.setStatus(application.getStatus());
                     responseDtoHolder.setPostedBy(application.getJob().getPostedBy().getFirstName() + " " + application.getJob().getPostedBy().getLastName());
                     responseDtoHolder.setSkillsForJob(application.getJob().getSkills());
+                    
+//                    System.out.println(application.getJob().getSkills().get(0).getName());
+//                    application.getJob().getSkills().forEach(skill -> {
+//                    	SkillDto temp = mapper.map(skill, SkillDto.class);
+//                    	responseDtoHolder.setSkillsRequired(temp);
+//                    	System.out.println(temp.getName());
+//                    });
+                    
                     return responseDtoHolder;
                 })
                 .collect(Collectors.toList());
@@ -130,6 +142,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                     JobApplicationResponseDto responseDtoHolder = mapper.map(application.getJob(), JobApplicationResponseDto.class);
 
                     responseDtoHolder.setApplicationId(application.getApplicationId());
+                    responseDtoHolder.setCompanyName(application.getJob().getPostedBy().getCompanyName());
                     responseDtoHolder.setAppliedDate(application.getAppliedDate());
                     responseDtoHolder.setStatus(application.getStatus());
                     responseDtoHolder.setPostedBy(application.getJob().getPostedBy().getFirstName() + " " + application.getJob().getPostedBy().getLastName());

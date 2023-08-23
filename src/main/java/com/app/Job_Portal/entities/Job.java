@@ -33,7 +33,7 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "job_id")
     private Long jobId;
-
+    
     @Column(nullable = false)
     private String jobTitle;
 
