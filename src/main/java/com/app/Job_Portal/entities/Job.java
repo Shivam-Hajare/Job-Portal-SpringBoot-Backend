@@ -54,6 +54,7 @@ public class Job {
     
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+
     private JobType jobType;
     
     @ManyToOne
