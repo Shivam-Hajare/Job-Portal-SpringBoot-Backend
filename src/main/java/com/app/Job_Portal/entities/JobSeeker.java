@@ -29,8 +29,8 @@ public class JobSeeker {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
-    private String password;
+//    @Column(nullable = false)
+//    private String password;
     
     @Column(nullable = false)
     @ColumnDefault("0")

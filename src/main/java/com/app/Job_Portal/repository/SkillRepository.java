@@ -1,6 +1,7 @@
 package com.app.Job_Portal.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +15,5 @@ public interface SkillRepository extends JpaRepository<Skill, Long>{
 
     List<Skill> findAllByNameIn(List<String> list);
 
+    Optional<Skill> findByName(String name);
 }
