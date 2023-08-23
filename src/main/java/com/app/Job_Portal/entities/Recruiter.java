@@ -46,6 +46,9 @@ public class Recruiter {
     
     @Column(nullable = false)
     private String recruiterBio;
+    
+    @Column(nullable = false)
+    private String companyName;
 
     
     @ManyToOne
