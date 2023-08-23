@@ -25,7 +25,7 @@ public class JobApplicationResponseDto {
     private LocalDate appliedDate;
 
     private Status status;
-
+    private String companyName;
     private String jobTitle;
 
     private String jobDescription;
@@ -36,9 +36,15 @@ public class JobApplicationResponseDto {
     private JobType jobType;
     private String postedBy;
     private List<String> skillsForJob = new ArrayList<>();
+    
+    private List<SkillDto> skillsRequired = new ArrayList<>();
 
     public void setSkillsForJob(List<Skill> allSkills) {
         allSkills.forEach(skill -> skillsForJob.add(skill.getName()));
+    }
+    
+    public void setSkillsRequired(SkillDto skill) {
+    	skillsRequired.add(skill);
     }
 
 }
