@@ -63,7 +63,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 					newJob.setRecruiterName(recruiter.getFirstName()+" "+recruiter.getLastName());
 					//set all skills to newJob skills using custome query
 					List<String> skillsDtos=skillRepository.findSkillNamesByJobId(job.getJobId());
-					newJob.setSkillsForJob(skillsDtos);
+					newJob.setSkillsForJob_strings(skillsDtos);
 					jobList.add(newJob);
 				});
 		return jobList;
