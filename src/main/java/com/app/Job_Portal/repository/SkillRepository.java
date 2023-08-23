@@ -20,4 +20,7 @@ public interface SkillRepository extends JpaRepository<Skill, Long>{
     Optional<Skill> findByName(String name);
     @Query("SELECT s.name FROM Skill s JOIN s.jobListings jl WHERE jl.jobId = :jobId")
     List<String> findSkillNamesByJobId(@Param("jobId") Long jobId);
+    
+  //  @Query("SELECT s.name FROM Skill s JOIN s.jobListings jl WHERE jl.jobId = :jobId")
+  //  List<String> findSkillForByJobId(@Param("jobId") Long jobId);
 }

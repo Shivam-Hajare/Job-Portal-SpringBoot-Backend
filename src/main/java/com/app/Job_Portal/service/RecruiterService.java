@@ -8,6 +8,7 @@ import com.app.Job_Portal.dto.JobListDto;
 import com.app.Job_Portal.dto.PostJobRequestDto;
 import com.app.Job_Portal.dto.RecruiterRequestDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
+import com.app.Job_Portal.entities.Recruiter;
 
 public interface RecruiterService {
 
@@ -24,4 +25,8 @@ public interface RecruiterService {
 	  List<JobApplicationsListDto> getListOfJobApplications(Long jobId, Long loggedInRecruiterId);
 
 	  String updateProfile(RecruiterRequestDto recruiterDto, Long recuiterId);
+	  
+	  RecruiterRequestDto recrutierById(Long recuiterId );
+	  
+	  
 }

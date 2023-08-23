@@ -229,5 +229,18 @@ public class RecruiterServiceImpl implements RecruiterService{
 		 
 		 
 	 }
+	 
+	 @Override
+	 public RecruiterRequestDto recrutierById(Long recuiterId )
+	 {
+		 Recruiter recruiter=recruiterRepository.findById(recuiterId).orElseThrow(()->new ResourceNotFoundException("recruiter with given id not found"));
+		 RecruiterRequestDto recru=mapper.map(recruiter, RecruiterRequestDto.class);
+		
+	 
+			
+			return recru;
+	 
+	 }
+	 
 
 }

@@ -103,4 +103,9 @@ public class RecruiterController {
 	    return new ResponseEntity<String>(reServiceImpl.updateProfile(recruiterDto, recruiterId),HttpStatus.OK);	
 	    }
 	    
+	    @GetMapping("/single/recruiter/id/{recruiterId}")
+	    public ResponseEntity<RecruiterRequestDto>recruiterById(@PathVariable Long recruiterId)
+	    {
+	    	return new ResponseEntity<RecruiterRequestDto>(reServiceImpl.recrutierById(recruiterId),HttpStatus.OK);
+	    }
 }
