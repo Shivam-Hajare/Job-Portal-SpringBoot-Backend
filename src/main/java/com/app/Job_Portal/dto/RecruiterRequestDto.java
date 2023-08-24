@@ -21,4 +21,5 @@ public class RecruiterRequestDto {
     private String lastName;
     private String phoneNo;
     private String recruiterBio;
+    private String companyName;
 }

@@ -107,7 +107,39 @@ public class JobServiceImpl implements JobService {
 		return jobAppListDto;
 	}
 
-	
+//	public List<JobListDto>webJobs(String jobTitle)
+//	{
+//		List<Job> jobLists = jobRepo.findAll();
+//		
+//		List<Job> webjobs=jobLists.stream().filter(t->t.getJobTitle().contains(jobTitle)).collect(Collectors.toList());
+//	
+//		List<JobListDto> listOfJobListDtos = new ArrayList<>();
+//		
+//	    webjobs.forEach(wj->{
+//		JobListDto allwebjobs=mapper.map(wj, JobListDto.class);
+////		allwebjobs.setJobId(wj.getJobId());
+//		allwebjobs.setJobTitle(wj.getJobTitle());
+//		allwebjobs.setJobDescription(wj.getJobDescription());
+//		allwebjobs.setPostedDate(wj.getPostedDate());
+//		allwebjobs.setDeadLineDate(wj.getDeadLineDate());
+//		allwebjobs.setNoOfJobPositions(wj.getNoOfJobPositions());
+//		allwebjobs.setSalary(wj.getSalary());
+//		allwebjobs.setJobType(wj.getJobType());
+//		String recruiterName=allwebjobs.getRecruiterName();
+//		allwebjobs.setRecruiterName(recruiterName);
+////		allwebjobs.setSkillsForJob(wj.getSkills());
+////		List<SkillDto>skills=skillRepository.
+//		System.out.println(wj.getSkills().size()+ " helloo");
+//		wj.getSkills().forEach(skill -> {
+//		allwebjobs.getSkillsForJob().add(mapper.map(skill, SkillDto.class));	
+//		});
+//		listOfJobListDtos.add(allwebjobs);
+//		
+//		//jdesc,postd,dead,no,sal,jobty,recru,skilldto
+//		});
+//		
+//		return listOfJobListDtos;
+//	}
 
 	   
 	
