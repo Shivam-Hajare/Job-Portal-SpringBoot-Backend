@@ -107,39 +107,35 @@ public class JobServiceImpl implements JobService {
 		return jobAppListDto;
 	}
 
-//	public List<JobListDto>webJobs(String jobTitle)
-//	{
-//		List<Job> jobLists = jobRepo.findAll();
-//		
-//		List<Job> webjobs=jobLists.stream().filter(t->t.getJobTitle().contains(jobTitle)).collect(Collectors.toList());
-//	
-//		List<JobListDto> listOfJobListDtos = new ArrayList<>();
-//		
-//	    webjobs.forEach(wj->{
-//		JobListDto allwebjobs=mapper.map(wj, JobListDto.class);
-////		allwebjobs.setJobId(wj.getJobId());
-//		allwebjobs.setJobTitle(wj.getJobTitle());
-//		allwebjobs.setJobDescription(wj.getJobDescription());
-//		allwebjobs.setPostedDate(wj.getPostedDate());
-//		allwebjobs.setDeadLineDate(wj.getDeadLineDate());
-//		allwebjobs.setNoOfJobPositions(wj.getNoOfJobPositions());
-//		allwebjobs.setSalary(wj.getSalary());
-//		allwebjobs.setJobType(wj.getJobType());
-//		String recruiterName=allwebjobs.getRecruiterName();
-//		allwebjobs.setRecruiterName(recruiterName);
-////		allwebjobs.setSkillsForJob(wj.getSkills());
-////		List<SkillDto>skills=skillRepository.
-//		System.out.println(wj.getSkills().size()+ " helloo");
-//		wj.getSkills().forEach(skill -> {
-//		allwebjobs.getSkillsForJob().add(mapper.map(skill, SkillDto.class));	
-//		});
-//		listOfJobListDtos.add(allwebjobs);
-//		
-//		//jdesc,postd,dead,no,sal,jobty,recru,skilldto
-//		});
-//		
-//		return listOfJobListDtos;
-//	}
+	public List<JobListDto>JobsWithTitle(String jobTitle)
+	{
+		List<Job> jobLists=jobRepo.findAll();
+		
+		List<Job>jobWithSpecificTitle=jobLists.stream().filter(sjt->sjt.getJobTitle().contains(jobTitle)).collect(Collectors.toList());
+		
+		return jobWithSpecificTitle.stream().map((job)->{
+			JobListDto jobHolder= mapper.map(job, JobListDto.class);
+			jobHolder.setJobId(job.getJobId());
+			jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
+			jobHolder.setJobTitle(job.getJobTitle());
+			jobHolder.setJobDescription(job.getJobDescription());
+			jobHolder.setPostedDate(job.getPostedDate());
+			jobHolder.setDeadLineDate(job.getDeadLineDate());
+			jobHolder.setNoOfJobPositions(job.getNoOfJobPositions());
+			jobHolder.setJobType(job.getJobType());
+			jobHolder.setSalary(job.getSalary());
+			jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+			
+			List<Skill>listOfSkills=jobRepo.findSkillsByJobId(job.getJobId());
+			listOfSkills.forEach(skill->{
+				jobHolder.getSkillsForJob().add(mapper.map(skill, SkillDto.class));
+			});
+			
+			return jobHolder;
+		}).collect(Collectors.toList());
+		
+		
+	}
 
 	   
 	

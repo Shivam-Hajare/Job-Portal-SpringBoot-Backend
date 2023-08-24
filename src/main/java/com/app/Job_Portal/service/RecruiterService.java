@@ -11,6 +11,7 @@ import com.app.Job_Portal.dto.RecruiterRequestDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
 import com.app.Job_Portal.entities.Recruiter;
 
+
 public interface RecruiterService {
 
 	 List<JobListDto> getAllJobsPosted(Long recruiterId);
