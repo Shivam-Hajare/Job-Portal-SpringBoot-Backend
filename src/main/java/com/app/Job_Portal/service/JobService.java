@@ -14,5 +14,5 @@ import com.app.Job_Portal.entities.Job;
 public interface JobService {
 	List<JobListDto> getAllJobs();
 	List<JobApplicationsListDto> getListOfJobApplications(Long jobId);
-	List<JobListDto>webJobs(String jobTiltle);
+	//List<JobListDto>webJobs(String jobTiltle);
 }
