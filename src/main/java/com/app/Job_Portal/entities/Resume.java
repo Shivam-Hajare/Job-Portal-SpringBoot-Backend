@@ -24,7 +24,6 @@ public class Resume {
 
  
     @Column(name = "resume_file")
-    @Lob
     private byte[] resumeFile;
 
     public Resume() {

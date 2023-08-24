@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +24,9 @@ public class JobController {
         return new ResponseEntity<>(jobServiceImpl.getAllJobs(), HttpStatus.OK);
     }
 
+//    @GetMapping("/findwebjobs/{web}")
+//    public ResponseEntity<?>  getAllWebJobs(@PathVariable String web) {
+//        return new ResponseEntity<>(jobServiceImpl.webJobs(web), HttpStatus.OK);
+//    }
 
 }
