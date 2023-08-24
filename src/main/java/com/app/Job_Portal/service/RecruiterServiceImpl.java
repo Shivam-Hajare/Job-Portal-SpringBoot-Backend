@@ -223,7 +223,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 		 recruiter.setLastName(recruiterDto.getLastName());
 		 recruiter.setPhoneNo(recruiterDto.getPhoneNo());
 		 recruiter.setRecruiterBio(recruiterDto.getRecruiterBio());
-		 
+		 recruiter.setCompanyName(recruiterDto.getCompanyName());
 		 recruiterRepository.save(recruiter);
 		 
 		 return "profile updated succefully !!!";
