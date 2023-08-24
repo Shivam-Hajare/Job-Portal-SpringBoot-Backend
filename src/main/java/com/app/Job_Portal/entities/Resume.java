@@ -22,7 +22,7 @@ public class Resume {
     @JoinColumn(name = "jobseeker_id")
     private JobSeeker jobseeker;
 
-    @Lob
+ 
     @Column(name = "resume_file")
     @Lob
     private byte[] resumeFile;
