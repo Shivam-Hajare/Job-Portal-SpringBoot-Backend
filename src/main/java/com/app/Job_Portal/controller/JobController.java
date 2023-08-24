@@ -22,9 +22,9 @@ public class JobController {
         return new ResponseEntity<>(jobServiceImpl.getAllJobs(), HttpStatus.OK);
     }
 
-//    @GetMapping("/findwebjobs/{web}")
-//    public ResponseEntity<?>  getAllWebJobs(@PathVariable String web) {
-//        return new ResponseEntity<>(jobServiceImpl.webJobs(web), HttpStatus.OK);
-//    }
+    @GetMapping("/findJobsWithTitle/{web}")
+    public ResponseEntity<?>  getAllJobsWithTitle(@PathVariable String web) {
+       return new ResponseEntity<>(jobServiceImpl.JobsWithTitle(web), HttpStatus.OK);
+    }
 
 }
