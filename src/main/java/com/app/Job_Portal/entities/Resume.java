@@ -24,6 +24,7 @@ public class Resume {
     private JobSeeker jobseeker;
 
     @Column(name = "resume_file")
+    @Lob
     private byte[] resumeFile;
 
     public Resume() {

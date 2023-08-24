@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.Job_Portal.dto.JobApplicationsListDto;
 import com.app.Job_Portal.dto.JobListDto;
+import com.app.Job_Portal.dto.JobStatusDto;
 import com.app.Job_Portal.dto.PostJobRequestDto;
 import com.app.Job_Portal.dto.RecruiterRequestDto;
 import com.app.Job_Portal.dto.SkillDto;
@@ -22,6 +23,7 @@ import com.app.Job_Portal.entities.Job;
 import com.app.Job_Portal.entities.JobApplication;
 import com.app.Job_Portal.entities.JobSeeker;
 import com.app.Job_Portal.entities.Recruiter;
+import com.app.Job_Portal.entities.Resume;
 import com.app.Job_Portal.entities.Skill;
 import com.app.Job_Portal.entities.Status;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
@@ -141,7 +143,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 
 
 	
-	public String updateApplicationStatusByRecruiter(Long jobId, Long jobSeekerId, String jobStatus, Long recruiterId) {
+	public String updateApplicationStatusByRecruiter(Long jobId, Long jobSeekerId, JobStatusDto jobStatus, Long recruiterId) {
 	    Job job = jobRepo.findById(jobId)
 	            .orElseThrow(() -> new ResourceNotFoundException("Job not found with ID: " + jobId));
 
@@ -156,7 +158,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 	    List<JobApplication> jobApplications = jobSeeker.getJobApplications();
 	    for (JobApplication application : jobApplications) {
 	        if (application.getJob().getJobId().equals(jobId)) {
-	            application.setStatus(Status.valueOf(jobStatus));
+	            application.setStatus(Status.valueOf(jobStatus.getJobStatus()));
 	        }
 	    }
 
@@ -186,9 +188,10 @@ public class RecruiterServiceImpl implements RecruiterService{
 	            dto.setJobSeekerId(jobApp.getJobSeeker().getJobSeekerId());
 	            dto.setFirstName(jobApp.getJobSeeker().getFirstName());
 	            dto.setLastName(jobApp.getJobSeeker().getLastName());
+	            // code for getting resume of jobseeker and seeting to jobapplicationdto dto using jobseekerId
 	            
 	            Long jobSeekerId = jobApp.getJobSeeker().getJobSeekerId();
-
+	            
 	            // Fetch skills using skillRepository's custom query method
 	            List<Skill> jobSeekerSkills = skillRepository.findAllSkillsByJobSeekerId(jobSeekerId);
 
@@ -229,5 +232,8 @@ public class RecruiterServiceImpl implements RecruiterService{
 		 
 		 
 	 }
+
+
+
 
 }
