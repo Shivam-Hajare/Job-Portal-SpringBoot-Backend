@@ -3,7 +3,6 @@ package com.app.Job_Portal.entities;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -18,11 +17,12 @@ public class Resume {
     @Column(name = "resume_id")
     private Long resumeId;
 
-    
+
     @OneToOne
-    @JoinColumn(name="jobseeker_id")
+    @JoinColumn(name = "jobseeker_id")
     private JobSeeker jobseeker;
 
+    @Lob
     @Column(name = "resume_file")
     private byte[] resumeFile;
 
