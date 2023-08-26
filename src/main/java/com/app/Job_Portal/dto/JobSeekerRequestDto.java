@@ -18,7 +18,6 @@ public class JobSeekerRequestDto {
 
     private int yearOfExperience;
 
-
     private List<EducationalDetailsDto> eduInfo;
 
     private List<SkillDto> skills;

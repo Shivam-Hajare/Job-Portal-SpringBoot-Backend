@@ -97,18 +97,18 @@ public class JobseekerController {
 
 
     /*
-     * @Path         /get/accepted/{jobSeekerId}
+     * @Path         /get/{status}/{jobSeekerId}
      * @param         None
-     * @PathVariable  jobSeekerId
+     * @PathVariable  status, jobSeekerId
      * @return        Response Entity of JobApplicationResponseDto type
-     * Description :  This method return List of accepted jobs
+     * Description :  This method return List of jobs with given status
      * @GetMapping :   Annotation for mapping HTTP GET requests onto specific handler methods.
      */
 
-    @GetMapping("/get/accepted/{jobSeekerId}")
-    public List<JobApplicationResponseDto> getAllAcceptedJobs(@PathVariable Long jobSeekerId) {
+    @GetMapping("/get/{status}/{jobSeekerId}")
+    public List<JobApplicationResponseDto> getAllJobsWithGivenStatus(@PathVariable Long jobSeekerId, @PathVariable String status) {
 
-        return jobSeekerService.getAllAcceptedJobs(jobSeekerId);
+        return jobSeekerService.getAllJobsWithGivenStatus(jobSeekerId, status);
 
     }
 
