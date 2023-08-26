@@ -15,7 +15,7 @@ import com.app.Job_Portal.service.SignUpService;
 
 @RestController
 @RequestMapping("/signup")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class SignUpController {
 
 	@Autowired
