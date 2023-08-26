@@ -101,7 +101,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         return jobLists.stream()
                 .map((job) -> {
                     JobListDto jobHolder;
-                    if (job.getJobTitle().equals(title)) {
+                    if (job.getJobTitle().toLowerCase().contains(title.toLowerCase())) {
                         jobHolder = mapper.map(job, JobListDto.class);
                         jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
                         jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
@@ -152,7 +152,7 @@ System.out.println("req ss");
 
 
     @Override
-    public List<JobApplicationResponseDto> getAllAcceptedJobs(Long jobSeekerId) {
+    public List<JobApplicationResponseDto> getAllJobsWithGivenStatus(Long jobSeekerId, String status) {
         JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id not found"));
 
         List<JobApplication> listOfApplications = seeker.getJobApplications();
@@ -174,7 +174,7 @@ System.out.println("req ss");
                     });
                     return responseDtoHolder;
                 })
-                .filter(application -> application.getStatus().toString().equals("ACCEPTED"))
+                .filter(application -> application.getStatus().toString().equalsIgnoreCase(status))
                 .collect(Collectors.toList());
     }
 
@@ -240,7 +240,7 @@ System.out.println("req ss");
         return "selected application does not exists ";
     }
 
-    //  INCOMPLETE
+
     @Override
     public String createProfile(JobSeekerRequestDto seekerDto) {
         JobSeeker seekerProfile = new JobSeeker();

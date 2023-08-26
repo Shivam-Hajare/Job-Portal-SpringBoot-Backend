@@ -20,7 +20,7 @@ public interface JobSeekerService {
 
     List<JobApplicationResponseDto> getAppliedJobs(Long jobSeekerId);
 
-    List<JobApplicationResponseDto> getAllAcceptedJobs(Long jobSeekerId);
+    List<JobApplicationResponseDto> getAllJobsWithGivenStatus(Long jobSeekerId, String status);
 
     String applyForAJob(Long jobId, Long jobSeekerId);
 
