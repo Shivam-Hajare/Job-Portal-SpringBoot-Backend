@@ -34,7 +34,12 @@ public class RecruiterController {
 	@Autowired
 	private RecruiterServiceImpl reServiceImpl;
 	
-	
+	/**
+	 * Get all jobs posted by the recruiter with recruiterId
+	 *
+	 * @param recruiterId the ID of the recruiter
+	 * @return a ResponseEntity containing the list of jobs posted by the recruiter
+	 */
 	 @GetMapping("/AllJobsPosted/{RecruiterId}")
 	    public ResponseEntity<?>  getAllJobsPosted(@PathVariable(value = "RecruiterId") Long RecruiterId) {
 	    
@@ -42,6 +47,13 @@ public class RecruiterController {
 	    }
 	 
 	 //delete job from job list
+	 /**
+	  * Delete a job by the recruiter
+	  *
+	  * @param recruiterId the ID of the recruiter
+	  * @param jobId the ID of the job to be deleted
+	  * @return a ResponseEntity containing the status of the operation
+	  */
 	 @DeleteMapping("/{recruiterId}/jobs/{jobId}")
 	    public ResponseEntity<?>deleteJob(  @PathVariable Long recruiterId,
 
@@ -68,6 +80,14 @@ public class RecruiterController {
 	    }
 	    
 	    //Edit job details
+	    /**
+	     * Edit the job details by the recruiter
+	     *
+	     * @param recruiterId the ID of the recruiter
+	     * @param jobId the ID of the job to be edited
+	     * @param updateJobRequestDto the DTO containing the updated job details
+	     * @return a ResponseEntity containing the status of the operation
+	     */
 	    @PutMapping("/{recruiterId}/jobs/{jobId}")
 	    public ResponseEntity<?> updateJobByRecruiter(
 	            @PathVariable Long recruiterId,
@@ -79,6 +99,15 @@ public class RecruiterController {
 	    }
 	    
 	  //accept/reject application
+	    /**
+	     * Accept or reject a job application by the recruiter
+	     *
+	     * @param recruiterId the ID of the recruiter
+	     * @param jobId the ID of the job
+	     * @param jobSeekerId the ID of the job seeker
+	     * @param jobStatusDto the DTO containing the new job application status
+	     * @return a ResponseEntity containing the status of the operation
+	     */
 	    @PutMapping("/{recruiterId}/jobs/{jobId}/jobSeekers/{jobSeekerId}")
 	    public ResponseEntity<?> updateApplicationStatusByRecruiter(
 	            @PathVariable Long recruiterId,
@@ -90,6 +119,13 @@ public class RecruiterController {
 	    }
 
 	    //checking job application for perticular job
+	    /**
+	     * Get all job applications for a particular job
+	     *
+	     * @param jobId the ID of the job
+	     * @param recruiterId the ID of the recruiter
+	     * @return a ResponseEntity containing the list of job applications
+	     */
 	    @GetMapping("/JobApplications/{jobId}/{recruiterId}")
 	    public ResponseEntity<List<JobApplicationsListDto>> getAllJobApplications(
 	            @PathVariable(value = "jobId") Long jobId,
@@ -99,12 +135,25 @@ public class RecruiterController {
 	        return ResponseEntity.ok(jobAppList);
 	    }
 	    
+	    /**
+	     * Update the recruiter profile
+	     *
+	     * @param recruiterId the ID of the recruiter
+	     * @param recruiterRequestDto the DTO containing the updated recruiter details
+	     * @return a ResponseEntity containing the status of the operation
+	     */
 	    @PutMapping("/update-profile/{recruiterId}")
 	    public ResponseEntity<String> updateProfile(@PathVariable Long recruiterId, @RequestBody RecruiterRequestDto recruiterDto)
 	    {
 	    return new ResponseEntity<String>(reServiceImpl.updateProfile(recruiterDto, recruiterId),HttpStatus.OK);	
 	    }
 	    
+	    /**
+	     * Get the recruiter details by recruiterId
+	     *
+	     * @param recruiterId the ID of the recruiter
+	     * @return a ResponseEntity containing the recruiter details
+	     */
 	    @GetMapping("/single/recruiter/id/{recruiterId}")
 	    public ResponseEntity<RecruiterRequestDto>recruiterById(@PathVariable Long recruiterId)
 	    {
