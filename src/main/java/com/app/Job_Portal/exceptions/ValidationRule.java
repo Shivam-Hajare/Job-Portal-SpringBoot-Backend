@@ -1,6 +1,6 @@
 package com.app.Job_Portal.exceptions;
 
-;
+
 
 
 
