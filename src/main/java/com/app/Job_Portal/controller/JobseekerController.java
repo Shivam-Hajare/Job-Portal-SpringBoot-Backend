@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -152,7 +154,7 @@ public class JobseekerController {
      */
 
     @PostMapping("/create-profile")
-    public ResponseEntity<String> createProfile(@RequestBody JobSeekerRequestDto seekerDto) {
+    public ResponseEntity<String> createProfile(@RequestBody @Valid JobSeekerRequestDto seekerDto) {
         return new ResponseEntity<String>(jobSeekerService.createProfile(seekerDto), HttpStatus.OK);
     }
 
@@ -166,7 +168,7 @@ public class JobseekerController {
      */
 
     @PutMapping("/update-profile/{jobSeekerId}")
-    public ResponseEntity<String> updateProfile(@PathVariable Long jobSeekerId, @RequestBody JobSeekerRequestDto seekerDto) {
+    public ResponseEntity<String> updateProfile(@PathVariable Long jobSeekerId, @RequestBody @Valid JobSeekerRequestDto seekerDto) {
         return new ResponseEntity<String>(jobSeekerService.updateProfile(seekerDto, jobSeekerId), HttpStatus.OK);
     }
 

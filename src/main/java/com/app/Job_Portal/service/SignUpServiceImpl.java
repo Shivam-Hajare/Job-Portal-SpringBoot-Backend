@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.Job_Portal.dto.RecruiterSignUpDto;
 import com.app.Job_Portal.entities.Recruiter;
 import com.app.Job_Portal.entities.User;
+import com.app.Job_Portal.exceptions.InvalidInputException;
+import com.app.Job_Portal.exceptions.ResourceNotFoundException;
+import com.app.Job_Portal.exceptions.ValidationRule;
 import com.app.Job_Portal.repository.RecruiterRepository;
 import com.app.Job_Portal.repository.UserRepository;
 
@@ -24,6 +27,11 @@ public class SignUpServiceImpl implements SignUpService {
 	
 	public String registrationOfRecruiter(RecruiterSignUpDto recruiterDto)
 	{
+		//validation of Email via Global exception
+		//validation of PhoneNumber via Custom exception
+		ValidationRule.validationOfPhoneNumber(recruiterDto.getPhoneNo());
+		
+		
 		Recruiter newRecruiter=new Recruiter();
 		
 		newRecruiter.setEmail(recruiterDto.getEmail());

@@ -30,6 +30,7 @@ import com.app.Job_Portal.entities.Recruiter;
 import com.app.Job_Portal.entities.Skill;
 import com.app.Job_Portal.entities.Status;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
+import com.app.Job_Portal.exceptions.ValidationRule;
 import com.app.Job_Portal.repository.JobApplicationRepository;
 import com.app.Job_Portal.repository.JobRepository;
 import com.app.Job_Portal.repository.JobSeekerRepository;
@@ -103,6 +104,8 @@ public class RecruiterServiceImpl implements RecruiterService{
 	
 	@Override
 	public String postJob(PostJobRequestDto postJobRequestDto) {
+		
+		
 		Job job = mapper.map(postJobRequestDto, Job.class);
 		// checking recruiter present or not also skills list is not empty
 		if (recruiterRepository.existsById(postJobRequestDto.getRecruiterId())
