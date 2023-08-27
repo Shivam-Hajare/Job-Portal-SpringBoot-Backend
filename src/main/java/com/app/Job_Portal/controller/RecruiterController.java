@@ -72,7 +72,7 @@ public class RecruiterController {
 	    public ResponseEntity<?> updateJobByRecruiter(
 	            @PathVariable Long recruiterId,
 	            @PathVariable Long jobId,
-	            @Valid @RequestBody UpdateJobRequestDto updateJobRequestDto) {
+	             @RequestBody @Valid UpdateJobRequestDto updateJobRequestDto) {
 
 	        String result = reServiceImpl.updateJobByRecruiter(jobId, updateJobRequestDto, recruiterId);
 	        return new ResponseEntity<>(result, HttpStatus.OK);
@@ -84,7 +84,7 @@ public class RecruiterController {
 	            @PathVariable Long recruiterId,
 	            @PathVariable Long jobId,
 	            @PathVariable Long jobSeekerId,
-	            @RequestBody JobStatusDto jobStatus) {
+	            @RequestBody @Valid JobStatusDto jobStatus) {
 	        String result = reServiceImpl.updateApplicationStatusByRecruiter(jobId, jobSeekerId, jobStatus, recruiterId);
 	        return new ResponseEntity<>(result, HttpStatus.OK);
 	    }
@@ -100,7 +100,7 @@ public class RecruiterController {
 	    }
 	    
 	    @PutMapping("/update-profile/{recruiterId}")
-	    public ResponseEntity<String> updateProfile(@PathVariable Long recruiterId, @RequestBody RecruiterRequestDto recruiterDto)
+	    public ResponseEntity<String> updateProfile(@PathVariable Long recruiterId, @RequestBody @Valid RecruiterRequestDto recruiterDto)
 	    {
 	    return new ResponseEntity<String>(reServiceImpl.updateProfile(recruiterDto, recruiterId),HttpStatus.OK);	
 	    }

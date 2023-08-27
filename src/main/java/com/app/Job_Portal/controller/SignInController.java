@@ -1,5 +1,7 @@
 package com.app.Job_Portal.controller;
 
+import javax.validation.Valid;
+
 import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +27,7 @@ public class SignInController {
 	private SignInService signInService;
 	
 	@PostMapping("/User")
-	public SignInResponseDto authenticationOfUser(@RequestBody SignInRequestDto signInReqDto)
+	public SignInResponseDto authenticationOfUser(@RequestBody @Valid SignInRequestDto signInReqDto)
 	{
 		return signInService.authenticationOfUser(signInReqDto);
 	}

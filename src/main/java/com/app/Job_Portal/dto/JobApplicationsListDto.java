@@ -14,8 +14,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class JobApplicationsListDto {
+	
 	private Long jobSeekerId;
-    private String firstName;
+	private String firstName;
     private String lastName;
     private List<SkillDto> skills;
     private byte[] resumeFile;
