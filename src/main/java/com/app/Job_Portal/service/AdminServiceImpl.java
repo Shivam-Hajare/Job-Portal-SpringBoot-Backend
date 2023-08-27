@@ -21,6 +21,7 @@ import com.app.Job_Portal.entities.JobSeeker;
 import com.app.Job_Portal.entities.Recruiter;
 import com.app.Job_Portal.entities.Skill;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
+import com.app.Job_Portal.repository.JobRepository;
 import com.app.Job_Portal.repository.JobSeekerRepository;
 import com.app.Job_Portal.repository.RecruiterRepository;
 
@@ -34,7 +35,8 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private RecruiterRepository recruiterRepo;
 	
-	
+	@Autowired
+	private JobRepository jobrepo;
 	
 	@Autowired
 	private ModelMapper mapper;
@@ -101,10 +103,14 @@ public class AdminServiceImpl implements AdminService {
 	public String deleteRecruiterProfile(Long recruiterId)
 	{
 		Recruiter recruiter=recruiterRepo.findById(recruiterId).orElseThrow(() -> new ResourceNotFoundException("Recruiter with given id Doesn't exists"));
-		for(Job jobs:recruiter.getJobListings())
+		
+		if(recruiter !=null)
 		{
-			jobs.setPostedBy(null);
+			List<Job> jobs=recruiter.getJobListings();
+			jobrepo.deleteAll(jobs);
+		
 		}
+		
 		recruiterRepo.delete(recruiter);
 		return "Recruiter removed succefully";
 		
