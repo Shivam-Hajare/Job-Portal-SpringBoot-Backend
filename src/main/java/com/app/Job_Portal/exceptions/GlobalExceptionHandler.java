@@ -42,11 +42,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errorMessage);
     }
 	
-//	 @ExceptionHandler(BindException.class)
-//	    public ResponseEntity<String> handleBindException(BindException ex) {
-//	        String errorMessage = "Invalid input data. Please check your input and try again.";
-//	        return ResponseEntity.badRequest().body(errorMessage);
-//	    }
+	 @ExceptionHandler(BindException.class)
+	    public ResponseEntity<String> handleBindException(BindException ex) {
+	        String errorMessage = "Invalid input data. Please check your input and try again.";
+	        return ResponseEntity.badRequest().body(errorMessage);
+	    }
 	
 	
 	// method level anno to tell SC , following is an exc handling method : to
