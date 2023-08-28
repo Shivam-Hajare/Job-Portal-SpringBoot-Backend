@@ -4,6 +4,7 @@ package com.app.Job_Portal.controller;
 
 import javax.validation.Valid;
 
+import com.app.Job_Portal.dto.JobSeekerRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,11 @@ public class SignUpController {
 	
 		return new ResponseEntity<String>(signUpService.registrationOfRecruiter(recruiterDto),HttpStatus.OK);
 		
+	}
+
+	@PostMapping("/jobseeker/newRegistration")
+	public ResponseEntity<String> createProfile(@RequestBody @Valid JobSeekerRequestDto seekerDto) {
+		return new ResponseEntity<String>(signUpService.registrationOfJobseeker(seekerDto), HttpStatus.OK);
 	}
 	
 	
