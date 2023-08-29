@@ -20,10 +20,12 @@ import com.app.Job_Portal.entities.JobApplication;
 import com.app.Job_Portal.entities.JobSeeker;
 import com.app.Job_Portal.entities.Recruiter;
 import com.app.Job_Portal.entities.Skill;
+import com.app.Job_Portal.entities.User;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
 import com.app.Job_Portal.repository.JobRepository;
 import com.app.Job_Portal.repository.JobSeekerRepository;
 import com.app.Job_Portal.repository.RecruiterRepository;
+import com.app.Job_Portal.repository.UserRepository;
 
 @Service
 @Transactional 
@@ -37,6 +39,9 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
 	private JobRepository jobrepo;
+	
+	@Autowired
+	private UserRepository userRepo;
 	
 	@Autowired
 	private ModelMapper mapper;
@@ -95,6 +100,10 @@ public class AdminServiceImpl implements AdminService {
 		for (JobApplication jobApp : jobSeeker.getJobApplications()) {
             jobApp.setJobSeeker(null);
         }
+		System.out.println(jobSeeker.getEmail());
+		User user=userRepo.findByEmail(jobSeeker.getEmail()).orElseThrow(() -> new ResourceNotFoundException("Job seekers with given id Doesn't exists"));
+		
+		userRepo.delete(user);
 		jobSeekerRepo.delete(jobSeeker);
         return "jobseeker removed succefully";
 		
@@ -110,8 +119,11 @@ public class AdminServiceImpl implements AdminService {
 			jobrepo.deleteAll(jobs);
 		
 		}
-		
-		recruiterRepo.delete(recruiter);
+	 User user=userRepo.findByEmail(recruiter.getEmail()).orElseThrow(() -> new ResourceNotFoundException("Recruiter with given id Doesn't exists"));
+	 
+	 userRepo.delete(user);
+	 
+	 recruiterRepo.delete(recruiter);
 		return "Recruiter removed succefully";
 		
 		
