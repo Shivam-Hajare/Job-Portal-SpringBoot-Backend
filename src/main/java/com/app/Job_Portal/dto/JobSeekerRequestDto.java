@@ -48,6 +48,6 @@ public class JobSeekerRequestDto {
 	@NotEmpty(message = "Add Educational details")
     private List<EducationalDetailsDto> eduInfo = new ArrayList<>();
 	
-	@NotEmpty(message = "Add skills")
+	//@NotEmpty(message = "Add skills")
     private List<SkillDto> skills = new ArrayList<>();
 }

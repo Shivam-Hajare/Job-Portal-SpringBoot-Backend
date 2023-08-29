@@ -37,6 +37,9 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
     @Autowired
     private ResumeRepository resumeRepo;
+    
+    @Autowired
+    private UserRepository userRepo;
 
     @Autowired
     private ModelMapper mapper;
@@ -334,6 +337,8 @@ System.out.println("req ss");
         if(resume.isPresent()) {
             resumeRepo.delete(resume.get());
         }
+        User user=userRepo.findByEmail(seeker.getEmail()).orElseThrow(()->new ResourceNotFoundException("job seeker with given id doesn't exists "));
+        userRepo.delete(user);
         jobSeekerRepo.delete(seeker);
         return "jobseeker removed succefully";
     }
