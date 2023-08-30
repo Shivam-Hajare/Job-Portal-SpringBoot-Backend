@@ -4,13 +4,12 @@ package com.app.Job_Portal.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import com.app.Job_Portal.dto.SignInRequestDto;
 import com.app.Job_Portal.dto.SignInResponseDto;
-
 import com.app.Job_Portal.entities.User;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
 import com.app.Job_Portal.repository.UserRepository;
@@ -29,11 +28,15 @@ public class SignInServiceImpl implements SignInService {
 	public  SignInResponseDto authenticationOfUser(SignInRequestDto signInDto)
 	{
 		User specificUser=userRepo.findByEmail(signInDto.getUserName()).orElseThrow(()-> new ResourceNotFoundException("Invalid Username"));
+	
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String userProvidedPassword=signInDto.getPassword();
+		String storedHashedPassword=specificUser.getPassword();
+		boolean passwordsMatch = passwordEncoder.matches(userProvidedPassword, storedHashedPassword);
 		
-		if(!(specificUser.getEmail().equals(signInDto.getUserName())&&specificUser.getPassword().equals(signInDto.getPassword())))
-		{
-			throw new RuntimeException("Password is not correct");
-		}
+		if (!passwordsMatch) {
+            throw new RuntimeException("Login failed.Password is incorrect");
+        } 
 		
 		SignInResponseDto userHolder=mapper.map(specificUser, SignInResponseDto.class);
 		

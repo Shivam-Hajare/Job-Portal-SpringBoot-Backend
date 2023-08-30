@@ -1,8 +1,5 @@
 package com.app.Job_Portal.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -15,7 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class JobSeekerRequestDto {
+public class JobseekerSignUpRequestDto {
 
 	@Email(message = "Invalid Email")
     @NotNull
@@ -38,10 +35,8 @@ public class JobSeekerRequestDto {
 	@Min(value = 0, message = "Experience can't be less than 0")
     private int yearOfExperience;
 
-    
-
-    private List<EducationalDetailsDto> eduInfo = new ArrayList<>();
-	
-	
-    private List<SkillDto> skills = new ArrayList<>();
+    @NotNull
+    @NotBlank(message="Please enter correct password")
+    @Size(max =10,min =4,message ="Password size must be within 4 to 10 character")
+    private String password;
 }

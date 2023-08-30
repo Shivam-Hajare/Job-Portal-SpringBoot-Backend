@@ -10,9 +10,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,10 +37,6 @@ public class User {
 	
 	@Column(nullable = false)
 	private String role;
-
-	@OneToOne
-	@JoinColumn(name = "admin_id")
-	private Admin admin;
 
 	@OneToOne
 	@JoinColumn(name = "jobSeeker_id")

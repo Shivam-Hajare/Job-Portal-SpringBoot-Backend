@@ -1,21 +1,43 @@
 package com.app.Job_Portal.service;
 
 
-import com.app.Job_Portal.dto.*;
-import com.app.Job_Portal.entities.*;
-import com.app.Job_Portal.exceptions.ResourceNotFoundException;
-import com.app.Job_Portal.repository.*;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.Job_Portal.dto.EducationalDetailsDto;
+import com.app.Job_Portal.dto.JobApplicationResponseDto;
+import com.app.Job_Portal.dto.JobListDto;
+import com.app.Job_Portal.dto.JobSeekerRequestDto;
+import com.app.Job_Portal.dto.JobSeekerResponseDto;
+import com.app.Job_Portal.dto.SkillDto;
+import com.app.Job_Portal.entities.EducationalDetails;
+import com.app.Job_Portal.entities.Job;
+import com.app.Job_Portal.entities.JobApplication;
+import com.app.Job_Portal.entities.JobSeeker;
+import com.app.Job_Portal.entities.JobType;
+import com.app.Job_Portal.entities.Resume;
+import com.app.Job_Portal.entities.Skill;
+import com.app.Job_Portal.entities.Status;
+import com.app.Job_Portal.entities.User;
+import com.app.Job_Portal.exceptions.InvalidInputException;
+import com.app.Job_Portal.exceptions.ResourceNotFoundException;
+import com.app.Job_Portal.repository.EducationalDetailsRepository;
+import com.app.Job_Portal.repository.JobApplicationRepository;
+import com.app.Job_Portal.repository.JobRepository;
+import com.app.Job_Portal.repository.JobSeekerRepository;
+import com.app.Job_Portal.repository.ResumeRepository;
+import com.app.Job_Portal.repository.SkillRepository;
+import com.app.Job_Portal.repository.UserRepository;
+
 
 @Service
 @Transactional
@@ -37,6 +59,9 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
     @Autowired
     private ResumeRepository resumeRepo;
+    
+    @Autowired
+    private UserRepository userRepo;
 
     @Autowired
     private ModelMapper mapper;
@@ -248,7 +273,6 @@ System.out.println("req ss");
         seekerProfile.setLastName(seekerDto.getLastName());
         seekerProfile.setEmail(seekerDto.getEmail());
         seekerProfile.setYearOfExperience(seekerDto.getYearOfExperience());
-        seekerProfile.setAdmin(new Admin((long)1));
         jobSeekerRepo.save(seekerProfile);
 
         Optional<JobSeeker> persistedSeekerHolder = jobSeekerRepo.findByEmail(seekerProfile.getEmail());
@@ -341,6 +365,8 @@ System.out.println("req ss");
         if(resume.isPresent()) {
             resumeRepo.delete(resume.get());
         }
+        User user=userRepo.findByEmail(seeker.getEmail()).orElseThrow(()->new ResourceNotFoundException("job seeker with given id doesn't exists "));
+        userRepo.delete(user);
         jobSeekerRepo.delete(seeker);
         return "jobseeker removed succefully";
     }

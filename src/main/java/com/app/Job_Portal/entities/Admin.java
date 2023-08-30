@@ -37,12 +37,6 @@ public class Admin {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "admin")
-    private List<JobSeeker> jobSeekers;
-
-    @OneToMany(mappedBy = "admin")
-    private List<Recruiter> recruiters;
-
     public Admin() {
         // Default constructor
     }

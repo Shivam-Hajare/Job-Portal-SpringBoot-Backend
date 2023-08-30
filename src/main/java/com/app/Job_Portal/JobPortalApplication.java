@@ -1,17 +1,20 @@
 package com.app.Job_Portal;
 
-import com.app.Job_Portal.entities.Admin;
-import com.app.Job_Portal.entities.User;
-import com.app.Job_Portal.repository.AdminRepository;
-import com.app.Job_Portal.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@SpringBootApplication
+import com.app.Job_Portal.entities.Admin;
+import com.app.Job_Portal.entities.User;
+import com.app.Job_Portal.repository.AdminRepository;
+import com.app.Job_Portal.repository.UserRepository;
+
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class JobPortalApplication {
 
 	public static void main(String[] args) {
@@ -32,11 +35,11 @@ public class JobPortalApplication {
 			System.out.println("this code is running");
 
 			if(!adminRepo.findById((long)1).isPresent()) {
-				Admin admin = new Admin((long)1, "shivam@gmail.com","shivam","hajare","shivam123");
+				String cryptPassword=new BCryptPasswordEncoder().encode("shivam123");
+				Admin admin = new Admin((long)1, "shivam@gmail.com","shivam","hajare",cryptPassword);
 				Admin persistedAdmin = adminRepo.save(admin);
 
 				User user = new User();
-				user.setAdmin(persistedAdmin);
 				user.setEmail(admin.getEmail());
 				user.setPassword(admin.getPassword());
 				user.setRole("ROLE_ADMIN");
