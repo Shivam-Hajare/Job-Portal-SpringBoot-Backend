@@ -107,7 +107,35 @@ public class JobServiceImpl implements JobService {
 		return jobAppListDto;
 	}
 
-	
+	public List<JobListDto>JobsWithTitle(String jobTitle)
+	{
+		List<Job> jobLists=jobRepo.findAll();
+		
+		List<Job>jobWithSpecificTitle=jobLists.stream().filter(sjt->sjt.getJobTitle().contains(jobTitle)).collect(Collectors.toList());
+		
+		return jobWithSpecificTitle.stream().map((job)->{
+			JobListDto jobHolder= mapper.map(job, JobListDto.class);
+			jobHolder.setJobId(job.getJobId());
+			jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
+			jobHolder.setJobTitle(job.getJobTitle());
+			jobHolder.setJobDescription(job.getJobDescription());
+			jobHolder.setPostedDate(job.getPostedDate());
+			jobHolder.setDeadLineDate(job.getDeadLineDate());
+			jobHolder.setNoOfJobPositions(job.getNoOfJobPositions());
+			jobHolder.setJobType(job.getJobType());
+			jobHolder.setSalary(job.getSalary());
+			jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+			
+			List<Skill>listOfSkills=jobRepo.findSkillsByJobId(job.getJobId());
+			listOfSkills.forEach(skill->{
+				jobHolder.getSkillsForJob().add(mapper.map(skill, SkillDto.class));
+			});
+			
+			return jobHolder;
+		}).collect(Collectors.toList());
+		
+		
+	}
 
 	   
 	

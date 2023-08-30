@@ -33,7 +33,7 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "job_id")
     private Long jobId;
-
+    
     @Column(nullable = false)
     private String jobTitle;
 
@@ -54,6 +54,7 @@ public class Job {
     
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+
     private JobType jobType;
     
     @ManyToOne
@@ -68,7 +69,7 @@ public class Job {
     )
     private List<Skill> skills;
     
-    @OneToMany(mappedBy = "job",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "job")
     private List<JobApplication> applications;
 
     // Constructors, getters, and setters

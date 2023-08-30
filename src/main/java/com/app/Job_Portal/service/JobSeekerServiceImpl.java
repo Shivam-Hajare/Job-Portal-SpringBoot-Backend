@@ -14,12 +14,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class JobSeekerServiceImpl implements JobSeekerService {
-
     @Autowired
     private JobSeekerRepository jobSeekerRepo;
 
@@ -36,6 +36,9 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private EducationalDetailsRepository educationalDetailsRepo;
 
     @Autowired
+    private ResumeRepository resumeRepo;
+
+    @Autowired
     private ModelMapper mapper;
 
     @Override
@@ -47,6 +50,13 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                 .map((job) -> {
                     JobListDto jobHolder = mapper.map(job, JobListDto.class);
                     jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+                    jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
+
+                    List<Skill> listOfSkills = jobRepo.findSkillsByJobId(job.getJobId());
+                    listOfSkills.forEach(skill -> {
+                        jobHolder.getSkillsForJob().add(mapper.map(skill, SkillDto.class));
+                    });
+
                     return jobHolder;
                 })
                 .collect(Collectors.toList());
@@ -62,11 +72,19 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         return jobLists.stream()
                 .map((job) -> {
-                    JobListDto jobHolder = null;
+                    JobListDto jobHolder;
                     if (job.getJobType().equals(typeOfJob)) {
                         jobHolder = mapper.map(job, JobListDto.class);
                         jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+                        jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
 
+                        List<Skill> listOfSkills = jobRepo.findSkillsByJobId(job.getJobId());
+                        listOfSkills.forEach(skill -> {
+                            jobHolder.getSkillsForJob().add(mapper.map(skill, SkillDto.class));
+                        });
+
+                    } else {
+                        jobHolder = null;
                     }
                     return jobHolder;
                 })
@@ -82,11 +100,19 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         return jobLists.stream()
                 .map((job) -> {
-                    JobListDto jobHolder = null;
-                    if (job.getJobTitle().equals(title)) {
+                    JobListDto jobHolder;
+                    if (job.getJobTitle().toLowerCase().contains(title.toLowerCase())) {
                         jobHolder = mapper.map(job, JobListDto.class);
                         jobHolder.setRecruiterName(job.getPostedBy().getFirstName());
+                        jobHolder.setCompanyName(job.getPostedBy().getCompanyName());
 
+                        List<Skill> listOfSkills = jobRepo.findSkillsByJobId(job.getJobId());
+                        listOfSkills.forEach(skill -> {
+                            jobHolder.getSkillsForJob().add(mapper.map(skill, SkillDto.class));
+                        });
+
+                    } else {
+                        jobHolder = null;
                     }
                     return jobHolder;
                 })
@@ -101,16 +127,24 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id not found"));
 
         List<JobApplication> listOfApplications = seeker.getJobApplications();
-
+System.out.println("req ss");
         return listOfApplications.stream()
                 .map((application) -> {
                     JobApplicationResponseDto responseDtoHolder = mapper.map(application.getJob(), JobApplicationResponseDto.class);
 
                     responseDtoHolder.setApplicationId(application.getApplicationId());
+                    responseDtoHolder.setCompanyName(application.getJob().getPostedBy().getCompanyName());
                     responseDtoHolder.setAppliedDate(application.getAppliedDate());
                     responseDtoHolder.setStatus(application.getStatus());
                     responseDtoHolder.setPostedBy(application.getJob().getPostedBy().getFirstName() + " " + application.getJob().getPostedBy().getLastName());
                     responseDtoHolder.setSkillsForJob(application.getJob().getSkills());
+                    
+                    List<Skill> listOfSkills = jobRepo.findSkillsByJobId(responseDtoHolder.getJobId());
+                    listOfSkills.forEach(skill -> {
+                        System.out.println(skill.getName());
+                        responseDtoHolder.getSkillsRequired().add(mapper.map(skill, SkillDto.class));
+                    });
+                    
                     return responseDtoHolder;
                 })
                 .collect(Collectors.toList());
@@ -118,7 +152,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
 
     @Override
-    public List<JobApplicationResponseDto> getAllAcceptedJobs(Long jobSeekerId) {
+    public List<JobApplicationResponseDto> getAllJobsWithGivenStatus(Long jobSeekerId, String status) {
         JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id not found"));
 
         List<JobApplication> listOfApplications = seeker.getJobApplications();
@@ -128,13 +162,19 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                     JobApplicationResponseDto responseDtoHolder = mapper.map(application.getJob(), JobApplicationResponseDto.class);
 
                     responseDtoHolder.setApplicationId(application.getApplicationId());
+                    responseDtoHolder.setCompanyName(application.getJob().getPostedBy().getCompanyName());
                     responseDtoHolder.setAppliedDate(application.getAppliedDate());
                     responseDtoHolder.setStatus(application.getStatus());
                     responseDtoHolder.setPostedBy(application.getJob().getPostedBy().getFirstName() + " " + application.getJob().getPostedBy().getLastName());
-                    responseDtoHolder.setSkillsForJob(application.getJob().getSkills());
+
+                    List<Skill> listOfSkills = jobRepo.findSkillsByJobId(responseDtoHolder.getJobId());
+                    listOfSkills.forEach(skill -> {
+                        System.out.println(skill.getName());
+                        responseDtoHolder.getSkillsRequired().add(mapper.map(skill, SkillDto.class));
+                    });
                     return responseDtoHolder;
                 })
-                .filter(application -> application.getStatus().toString().equals("ACCEPTED"))
+                .filter(application -> application.getStatus().toString().equalsIgnoreCase(status))
                 .collect(Collectors.toList());
     }
 
@@ -146,10 +186,10 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         Job job = jobRepo.findById(jobId).orElseThrow(() -> new ResourceNotFoundException("selected Job doesn't exists"));
 
         // check if already applied for the job
-        for(JobApplication applicationHolder: job.getApplications()) {
-            if(applicationHolder.getJobSeeker().getJobSeekerId().equals(seeker.getJobSeekerId())) {
-                 return "Already applied for this job";
-             }
+        for (JobApplication applicationHolder : job.getApplications()) {
+            if (applicationHolder.getJobSeeker().getJobSeekerId().equals(seeker.getJobSeekerId())) {
+                return "Already applied for this job";
+            }
         }
 
         JobApplication application = new JobApplication();
@@ -175,14 +215,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         JobApplication application = new JobApplication();
 
         // check applied or not
-        for(JobApplication applicationHolder: job.getApplications()) {
-            if(applicationHolder.getJobSeeker().getJobSeekerId().equals(seeker.getJobSeekerId())) {
-               // pending application can be withdrawn
-                if(applicationHolder.getStatus().equals(Status.PENDING)) {
+        for (JobApplication applicationHolder : job.getApplications()) {
+            if (applicationHolder.getJobSeeker().getJobSeekerId().equals(seeker.getJobSeekerId())) {
+                // pending application can be withdrawn
+                if (applicationHolder.getStatus().equals(Status.PENDING)) {
                     application = applicationHolder;
                     removeAnApplication = true;
                     break;
-                }else {
+                } else {
                     // already selected or rejected application cannot be withdrawn
                     return "cannot withdrawn already selected or rejected application";
                 }
@@ -191,7 +231,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         }
 
         // application exists and can be removed
-        if(removeAnApplication) {
+        if (removeAnApplication) {
             seeker.withDrawAnApplication(application, job);
             return "application withdrawn succefully";
         }
@@ -200,29 +240,61 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         return "selected application does not exists ";
     }
 
-//  INCOMPLETE
+
     @Override
     public String createProfile(JobSeekerRequestDto seekerDto) {
-        JobSeeker seekerProfile = mapper.map(seekerDto, JobSeeker.class);
-        return "null";
+        JobSeeker seekerProfile = new JobSeeker();
+        seekerProfile.setFirstName(seekerDto.getFirstName());
+        seekerProfile.setLastName(seekerDto.getLastName());
+        seekerProfile.setEmail(seekerDto.getEmail());
+        seekerProfile.setYearOfExperience(seekerDto.getYearOfExperience());
+        seekerProfile.setAdmin(new Admin((long)1));
+        jobSeekerRepo.save(seekerProfile);
+
+        Optional<JobSeeker> persistedSeekerHolder = jobSeekerRepo.findByEmail(seekerProfile.getEmail());
+
+        if (persistedSeekerHolder.isEmpty()) {
+            return "something went wrong!! not able to save ";
+        }
+
+        JobSeeker persistedSeeker = persistedSeekerHolder.get();
+
+        seekerDto.getSkills().forEach(skill -> {
+            Optional<Skill>  skillHolder = skillRepo.findBySkillId(skill.getSkillId());
+            skillHolder.ifPresent(value -> persistedSeeker.getSkills().add(value));
+        });
+
+        seekerDto.getEduInfo().forEach(edu -> {
+            EducationalDetails educationalDetailsHolder = mapper.map(edu, EducationalDetails.class);
+            educationalDetailsHolder.setJobSeeker(persistedSeeker);
+            persistedSeeker.getEduInfo().add(educationalDetailsHolder);
+        });
+
+
+        jobSeekerRepo.save(seekerProfile);
+        return "profile created succefully";
     }
 
 
     @Override
     public String updateProfile(JobSeekerRequestDto seekerDto, Long jobSeekerId) {
 
-        JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(()-> new ResourceNotFoundException("job seeker with given id not found"));
+        JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id not found"));
 
         seeker.setFirstName(seekerDto.getFirstName());
         seeker.setLastName(seekerDto.getLastName());
         seeker.setYearOfExperience(seekerDto.getYearOfExperience());
 
-        // Update skills
-        List<SkillDto> skillDtos = seekerDto.getSkills();
-        if (skillDtos != null) {
-            List<Skill> skills = skillRepo.findAllByNameIn(skillDtos.stream().map(SkillDto::getName).collect(Collectors.toList()));
-            seeker.setSkills(skills);
+        List<SkillDto> skillDtosList = seekerDto.getSkills();
+        List<Skill> skills = new ArrayList<>();
+        for (SkillDto skillDto : skillDtosList) {
+
+            if(skillRepo.findById(skillDto.getSkillId()).isPresent()) {
+                skills.add(skillRepo.findBySkillId(skillDto.getSkillId()).get());
+            }
+
         }
+        seeker.setSkills(skills);
 
         // Update educational details
         List<EducationalDetailsDto> educationalDetailsDtos = seekerDto.getEduInfo();
@@ -232,8 +304,8 @@ public class JobSeekerServiceImpl implements JobSeekerService {
             seeker.getEduInfo().clear();
 
             List<EducationalDetails> educationalDetails = educationalDetailsDtos.stream()
-                    .map(dto ->  {
-                        EducationalDetails seekerEducation =  mapper.map(dto, EducationalDetails.class);
+                    .map(dto -> {
+                        EducationalDetails seekerEducation = mapper.map(dto, EducationalDetails.class);
                         seekerEducation.setJobSeeker(seeker);
                         return seekerEducation;
                     })
@@ -258,6 +330,10 @@ public class JobSeekerServiceImpl implements JobSeekerService {
             jobApp.setJobSeeker(null);
         }
 
+        Optional<Resume> resume =  resumeRepo.findResumeByJobSeekerId(jobSeekerId);
+        if(resume.isPresent()) {
+            resumeRepo.delete(resume.get());
+        }
         jobSeekerRepo.delete(seeker);
         return "jobseeker removed succefully";
     }
@@ -279,6 +355,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         return responseDto;
     }
+
 
 
 }

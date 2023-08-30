@@ -14,13 +14,16 @@ import org.springframework.stereotype.Service;
 
 import com.app.Job_Portal.dto.JobApplicationsListDto;
 import com.app.Job_Portal.dto.JobListDto;
+import com.app.Job_Portal.dto.JobStatusDto;
 import com.app.Job_Portal.dto.PostJobRequestDto;
+import com.app.Job_Portal.dto.RecruiterRequestDto;
 import com.app.Job_Portal.dto.SkillDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
 import com.app.Job_Portal.entities.Job;
 import com.app.Job_Portal.entities.JobApplication;
 import com.app.Job_Portal.entities.JobSeeker;
 import com.app.Job_Portal.entities.Recruiter;
+import com.app.Job_Portal.entities.Resume;
 import com.app.Job_Portal.entities.Skill;
 import com.app.Job_Portal.entities.Status;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
@@ -60,10 +63,15 @@ public class RecruiterServiceImpl implements RecruiterService{
 				recruiter.getJobListings().forEach(job->{
 					JobListDto newJob=mapper.map(job, JobListDto.class);
 					newJob.setRecruiterName(recruiter.getFirstName()+" "+recruiter.getLastName());
+					//set all skills to newJob skills using custome query
+					List<String> skillsDtos=skillRepository.findSkillNamesByJobId(job.getJobId());
+					newJob.setSkillsForJob_strings(skillsDtos);
 					jobList.add(newJob);
 				});
 		return jobList;
 	}
+
+
 	
 	
 	@Override
@@ -135,7 +143,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 
 
 	
-	public String updateApplicationStatusByRecruiter(Long jobId, Long jobSeekerId, String jobStatus, Long recruiterId) {
+	public String updateApplicationStatusByRecruiter(Long jobId, Long jobSeekerId, JobStatusDto jobStatus, Long recruiterId) {
 	    Job job = jobRepo.findById(jobId)
 	            .orElseThrow(() -> new ResourceNotFoundException("Job not found with ID: " + jobId));
 
@@ -150,7 +158,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 	    List<JobApplication> jobApplications = jobSeeker.getJobApplications();
 	    for (JobApplication application : jobApplications) {
 	        if (application.getJob().getJobId().equals(jobId)) {
-	            application.setStatus(Status.valueOf(jobStatus));
+	            application.setStatus(Status.valueOf(jobStatus.getJobStatus()));
 	        }
 	    }
 
@@ -180,9 +188,10 @@ public class RecruiterServiceImpl implements RecruiterService{
 	            dto.setJobSeekerId(jobApp.getJobSeeker().getJobSeekerId());
 	            dto.setFirstName(jobApp.getJobSeeker().getFirstName());
 	            dto.setLastName(jobApp.getJobSeeker().getLastName());
+	            // code for getting resume of jobseeker and seeting to jobapplicationdto dto using jobseekerId
 	            
 	            Long jobSeekerId = jobApp.getJobSeeker().getJobSeekerId();
-
+	            
 	            // Fetch skills using skillRepository's custom query method
 	            List<Skill> jobSeekerSkills = skillRepository.findAllSkillsByJobSeekerId(jobSeekerId);
 
@@ -202,4 +211,42 @@ public class RecruiterServiceImpl implements RecruiterService{
 	        
 	        return jobAppListDto;
 	    }
+
+	 
+	 @Override
+	 public String updateProfile(RecruiterRequestDto recruiterDto, Long recuiterId)
+	 {
+		 
+		 Recruiter recruiter=recruiterRepository.findById(recuiterId).orElseThrow(()->new ResourceNotFoundException("job seeker with given id not found"));
+		 
+		 recruiter.setFirstName(recruiterDto.getFirstName());
+		 recruiter.setLastName(recruiterDto.getLastName());
+		 recruiter.setPhoneNo(recruiterDto.getPhoneNo());
+		 recruiter.setRecruiterBio(recruiterDto.getRecruiterBio());
+		 recruiter.setCompanyName(recruiterDto.getCompanyName());
+		 recruiterRepository.save(recruiter);
+		 
+		 return "profile updated succefully !!!";
+		 
+		 
+		 
+		 
+	 }
+	 
+	 @Override
+	 public RecruiterRequestDto recrutierById(Long recuiterId )
+	 {
+		 Recruiter recruiter=recruiterRepository.findById(recuiterId).orElseThrow(()->new ResourceNotFoundException("recruiter with given id not found"));
+		 RecruiterRequestDto recru=mapper.map(recruiter, RecruiterRequestDto.class);
+		
+	 
+			
+			return recru;
+	 
+	 }
+	 
+
+
+
+
 }

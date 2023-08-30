@@ -5,6 +5,7 @@ import com.app.Job_Portal.dto.JobApplicationResponseDto;
 import com.app.Job_Portal.dto.JobListDto;
 import com.app.Job_Portal.dto.JobSeekerRequestDto;
 import com.app.Job_Portal.dto.JobSeekerResponseDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface JobSeekerService {
 
     List<JobApplicationResponseDto> getAppliedJobs(Long jobSeekerId);
 
-    List<JobApplicationResponseDto> getAllAcceptedJobs(Long jobSeekerId);
+    List<JobApplicationResponseDto> getAllJobsWithGivenStatus(Long jobSeekerId, String status);
 
     String applyForAJob(Long jobId, Long jobSeekerId);
 

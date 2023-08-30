@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,14 +18,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.app.Job_Portal.dto.JobApplicationsListDto;
+import com.app.Job_Portal.dto.JobStatusDto;
 import com.app.Job_Portal.dto.PostJobRequestDto;
+import com.app.Job_Portal.dto.RecruiterRequestDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
 import com.app.Job_Portal.service.RecruiterServiceImpl;
 
 @RestController
 @RequestMapping("/recruiters")
+@CrossOrigin
+
 public class RecruiterController {
 
 	@Autowired
@@ -79,8 +84,7 @@ public class RecruiterController {
 	            @PathVariable Long recruiterId,
 	            @PathVariable Long jobId,
 	            @PathVariable Long jobSeekerId,
-	            @RequestBody String jobStatus) {
-
+	            @RequestBody JobStatusDto jobStatus) {
 	        String result = reServiceImpl.updateApplicationStatusByRecruiter(jobId, jobSeekerId, jobStatus, recruiterId);
 	        return new ResponseEntity<>(result, HttpStatus.OK);
 	    }
@@ -93,5 +97,17 @@ public class RecruiterController {
 	    ) {
 	        List<JobApplicationsListDto> jobAppList = reServiceImpl.getListOfJobApplications(jobId, recruiterId);
 	        return ResponseEntity.ok(jobAppList);
+	    }
+	    
+	    @PutMapping("/update-profile/{recruiterId}")
+	    public ResponseEntity<String> updateProfile(@PathVariable Long recruiterId, @RequestBody RecruiterRequestDto recruiterDto)
+	    {
+	    return new ResponseEntity<String>(reServiceImpl.updateProfile(recruiterDto, recruiterId),HttpStatus.OK);	
+	    }
+	    
+	    @GetMapping("/single/recruiter/id/{recruiterId}")
+	    public ResponseEntity<RecruiterRequestDto>recruiterById(@PathVariable Long recruiterId)
+	    {
+	    	return new ResponseEntity<RecruiterRequestDto>(reServiceImpl.recrutierById(recruiterId),HttpStatus.OK);
 	    }
 }
