@@ -33,15 +33,7 @@ public class SignInController {
 	}
 	
 	
-	/*
-	 * 
-	 * @PostMapping("/newRegistration")
-	public ResponseEntity<String> registrationOfNewRcruiter(@RequestBody RecruiterSignUpDto recruiterDto)
-	{
-		
-		return new ResponseEntity<String>(signUpService.registrationOfRecruiter(recruiterDto),HttpStatus.OK);
-	}
-	 */
+	
 	
 	
 }

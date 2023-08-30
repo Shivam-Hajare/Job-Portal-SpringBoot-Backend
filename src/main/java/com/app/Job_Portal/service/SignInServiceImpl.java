@@ -4,6 +4,7 @@ package com.app.Job_Portal.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,9 @@ public class SignInServiceImpl implements SignInService {
 	{
 		User specificUser=userRepo.findByEmail(signInDto.getUserName()).orElseThrow(()-> new ResourceNotFoundException("Invalid Username"));
 		
-		if(!(specificUser.getEmail().equals(signInDto.getUserName())&&specificUser.getPassword().equals(signInDto.getPassword())))
+		String cryptPassword=new BCryptPasswordEncoder().encode(signInDto.getPassword());
+		
+		if(!(specificUser.getEmail().equals(signInDto.getUserName())&&specificUser.getPassword().equals(cryptPassword)))
 		{
 			throw new RuntimeException("Password is not correct");
 		}
