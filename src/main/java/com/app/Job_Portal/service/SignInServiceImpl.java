@@ -30,13 +30,15 @@ public class SignInServiceImpl implements SignInService {
 	public  SignInResponseDto authenticationOfUser(SignInRequestDto signInDto)
 	{
 		User specificUser=userRepo.findByEmail(signInDto.getUserName()).orElseThrow(()-> new ResourceNotFoundException("Invalid Username"));
+	
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String userProvidedPassword=signInDto.getPassword();
+		String storedHashedPassword=specificUser.getPassword();
+		boolean passwordsMatch = passwordEncoder.matches(userProvidedPassword, storedHashedPassword);
 		
-		String cryptPassword=new BCryptPasswordEncoder().encode(signInDto.getPassword());
-		
-		if(!(specificUser.getEmail().equals(signInDto.getUserName())&&specificUser.getPassword().equals(cryptPassword)))
-		{
-			throw new RuntimeException("Password is not correct");
-		}
+		if (!passwordsMatch) {
+            throw new RuntimeException("Login failed.Password is incorrect");
+        } 
 		
 		SignInResponseDto userHolder=mapper.map(specificUser, SignInResponseDto.class);
 		
