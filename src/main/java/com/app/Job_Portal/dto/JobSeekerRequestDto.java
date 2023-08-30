@@ -45,9 +45,9 @@ public class JobSeekerRequestDto {
     @Size(max =10,min =4,message ="Password size must be within 4 to 10 character")
     private String password;
 
-	@NotEmpty(message = "Add Educational details")
+	
     private List<EducationalDetailsDto> eduInfo = new ArrayList<>();
 	
-	@NotEmpty(message = "Add skills")
+	
     private List<SkillDto> skills = new ArrayList<>();
 }
