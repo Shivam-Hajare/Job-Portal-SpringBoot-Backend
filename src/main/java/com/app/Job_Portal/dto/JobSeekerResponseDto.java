@@ -1,13 +1,11 @@
 package com.app.Job_Portal.dto;
 
-import com.app.Job_Portal.entities.JobApplication;
-import com.app.Job_Portal.entities.Skill;
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter

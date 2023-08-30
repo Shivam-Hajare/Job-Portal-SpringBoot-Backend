@@ -1,18 +1,19 @@
 package com.app.Job_Portal.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.app.Job_Portal.entities.JobSeeker;
 import com.app.Job_Portal.entities.Resume;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
 import com.app.Job_Portal.repository.JobSeekerRepository;
 import com.app.Job_Portal.repository.ResumeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Optional;
 
 @Service
 public class ResumeServiceImpl implements ResumeService {

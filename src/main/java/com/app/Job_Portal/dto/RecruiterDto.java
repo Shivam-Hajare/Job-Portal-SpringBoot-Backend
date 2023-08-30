@@ -3,8 +3,6 @@ package com.app.Job_Portal.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.Job_Portal.entities.Job;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

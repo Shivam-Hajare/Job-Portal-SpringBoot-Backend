@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -30,7 +29,6 @@ import com.app.Job_Portal.entities.Recruiter;
 import com.app.Job_Portal.entities.Skill;
 import com.app.Job_Portal.entities.Status;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
-import com.app.Job_Portal.exceptions.ValidationRule;
 import com.app.Job_Portal.repository.JobApplicationRepository;
 import com.app.Job_Portal.repository.JobRepository;
 import com.app.Job_Portal.repository.JobSeekerRepository;

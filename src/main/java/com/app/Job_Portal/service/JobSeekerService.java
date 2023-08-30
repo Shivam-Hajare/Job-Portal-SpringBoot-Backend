@@ -1,13 +1,12 @@
 package com.app.Job_Portal.service;
 
 
+import java.util.List;
+
 import com.app.Job_Portal.dto.JobApplicationResponseDto;
 import com.app.Job_Portal.dto.JobListDto;
 import com.app.Job_Portal.dto.JobSeekerRequestDto;
 import com.app.Job_Portal.dto.JobSeekerResponseDto;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 
 public interface JobSeekerService {

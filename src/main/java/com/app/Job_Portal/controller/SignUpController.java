@@ -4,7 +4,6 @@ package com.app.Job_Portal.controller;
 
 import javax.validation.Valid;
 
-import com.app.Job_Portal.dto.JobSeekerRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.app.Job_Portal.dto.JobSeekerRequestDto;
 import com.app.Job_Portal.dto.RecruiterSignUpDto;
 import com.app.Job_Portal.service.SignUpService;
 

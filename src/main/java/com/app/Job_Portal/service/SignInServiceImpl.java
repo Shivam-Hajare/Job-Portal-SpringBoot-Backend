@@ -8,10 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import com.app.Job_Portal.dto.SignInRequestDto;
 import com.app.Job_Portal.dto.SignInResponseDto;
-
 import com.app.Job_Portal.entities.User;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
 import com.app.Job_Portal.repository.UserRepository;
