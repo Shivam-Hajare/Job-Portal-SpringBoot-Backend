@@ -36,7 +36,6 @@ public class JobPortalApplication {
 				Admin persistedAdmin = adminRepo.save(admin);
 
 				User user = new User();
-				user.setAdmin(persistedAdmin);
 				user.setEmail(admin.getEmail());
 				user.setPassword(admin.getPassword());
 				user.setRole("ROLE_ADMIN");

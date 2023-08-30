@@ -52,9 +52,6 @@ public class JobSeeker {
     )
     private List<Skill> skills = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
 
     public void submitAnApplication(JobApplication application, Job job) {
         this.jobApplications.add(application);

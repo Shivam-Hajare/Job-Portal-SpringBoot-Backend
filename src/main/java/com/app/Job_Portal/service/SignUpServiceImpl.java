@@ -1,6 +1,7 @@
 package com.app.Job_Portal.service;
 
 import com.app.Job_Portal.dto.JobSeekerRequestDto;
+import com.app.Job_Portal.dto.JobseekerSignUpRequestDto;
 import com.app.Job_Portal.dto.RecruiterSignUpDto;
 import com.app.Job_Portal.entities.Admin;
 import com.app.Job_Portal.entities.JobSeeker;
@@ -47,14 +48,7 @@ public class SignUpServiceImpl implements SignUpService {
         newRecruiter.setCompanyName(recruiterDto.getCompanyName());
         newRecruiter.setPhoneNo(recruiterDto.getPhoneNo());
 
-        Optional<Admin> adminHolder = adminRepo.findById((long) 1);
-
-        Admin admin = new Admin();
-        if(adminHolder.isPresent()) {
-            admin = adminHolder.get();
-        }
-
-        newRecruiter.setAdmin(admin);
+        
         recruiterRepo.save(newRecruiter);
 
         User newUser = new User();
@@ -63,7 +57,7 @@ public class SignUpServiceImpl implements SignUpService {
         newUser.setPassword(recruiterDto.getPassword());
         newUser.setRecruiter(newRecruiter);
         newUser.setRole(recruiterDto.getRole());
-        newUser.setAdmin(admin);
+        
         userRepo.save(newUser);
 
         return "Registration Completed Successfully"
@@ -71,21 +65,17 @@ public class SignUpServiceImpl implements SignUpService {
     }
 
     @Override
-    public String registrationOfJobseeker(JobSeekerRequestDto seekerDto) {
+    public String registrationOfJobseeker(JobseekerSignUpRequestDto seekerDto) {
         JobSeeker seekerProfile = new JobSeeker();
         seekerProfile.setFirstName(seekerDto.getFirstName());
         seekerProfile.setLastName(seekerDto.getLastName());
         seekerProfile.setEmail(seekerDto.getEmail());
         seekerProfile.setYearOfExperience(seekerDto.getYearOfExperience());
-//		seekerProfile.setAdmin(new Admin((long)1));
 
-        Optional<Admin> adminHolder = adminRepo.findById((long) 1);
 
-        Admin admin = new Admin();
-        if(adminHolder.isPresent()) {
-            admin = adminHolder.get();
-        }
-        seekerProfile.setAdmin(admin);
+       
+
+        
 
         JobSeeker persitanceSeeker = jobSeekerRepo.save(seekerProfile);
 
@@ -95,7 +85,7 @@ public class SignUpServiceImpl implements SignUpService {
         newUser.setPassword(seekerDto.getPassword());
         newUser.setJobSeeker(persitanceSeeker);
         newUser.setRole("ROLE_JOBSEEKER");
-        newUser.setAdmin(admin);
+
         userRepo.save(newUser);
 
 //		Optional<JobSeeker> persistedSeekerHolder = jobSeekerRepo.findByEmail(seekerProfile.getEmail());

@@ -50,11 +50,6 @@ public class Recruiter {
     @Column(nullable = false)
     private String companyName;
 
-    
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
-
     @OneToMany(mappedBy = "postedBy",fetch =FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true )
     private List<Job> jobListings;
 

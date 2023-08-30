@@ -42,10 +42,6 @@ public class User {
 	private String role;
 
 	@OneToOne
-	@JoinColumn(name = "admin_id")
-	private Admin admin;
-
-	@OneToOne
 	@JoinColumn(name = "jobSeeker_id")
 	private JobSeeker jobSeeker;
 

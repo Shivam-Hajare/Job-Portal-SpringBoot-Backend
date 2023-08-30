@@ -53,19 +53,6 @@ public class AdminServiceImpl implements AdminService {
 		return jobSeekers.stream().map((jobSeeker)->{
 			JobSeekerResponseDto jobSeekerHolder=mapper.map(jobSeeker, JobSeekerResponseDto.class);
 			
-			//below 2 lines only for testing purpose because our Educational column doesn't have any data;
-			//EducationalDetailsDto eduInfo=mapper.map(jobSeeker.getEduInfo(),EducationalDetailsDto.class);
-			//eduInfo.setInstitute("CDAC");
-			
-			//below 2 lines only for testing purpose because our Skill column doesn't have any data;
-           // SkillDto skillInfo=mapper.map(jobSeeker.getSkills(),SkillDto.class );
-			//skillInfo.setDescription("Java Master");
-			
-			//jobSeekerHolder.setEduInfo(eduInfo);
-			//jobSeekerHolder.setSkills(skillInfo);
-			/*After adding data in edu and skill table via front-end 
-			 * kindly remove line no=49,50,51,53,54,55,57,58
-		    */
 			return jobSeekerHolder;
 		}).collect(Collectors.toList());
 		
