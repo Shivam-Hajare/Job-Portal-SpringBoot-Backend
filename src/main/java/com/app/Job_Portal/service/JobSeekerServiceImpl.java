@@ -19,7 +19,6 @@ import com.app.Job_Portal.dto.JobListDto;
 import com.app.Job_Portal.dto.JobSeekerRequestDto;
 import com.app.Job_Portal.dto.JobSeekerResponseDto;
 import com.app.Job_Portal.dto.SkillDto;
-import com.app.Job_Portal.entities.Admin;
 import com.app.Job_Portal.entities.EducationalDetails;
 import com.app.Job_Portal.entities.Job;
 import com.app.Job_Portal.entities.JobApplication;
@@ -28,11 +27,8 @@ import com.app.Job_Portal.entities.JobType;
 import com.app.Job_Portal.entities.Resume;
 import com.app.Job_Portal.entities.Skill;
 import com.app.Job_Portal.entities.Status;
-<<<<<<< HEAD
-import com.app.Job_Portal.exceptions.InvalidInputException;
-=======
 import com.app.Job_Portal.entities.User;
->>>>>>> crypt1
+import com.app.Job_Portal.exceptions.InvalidInputException;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
 import com.app.Job_Portal.repository.EducationalDetailsRepository;
 import com.app.Job_Portal.repository.JobApplicationRepository;
@@ -40,10 +36,8 @@ import com.app.Job_Portal.repository.JobRepository;
 import com.app.Job_Portal.repository.JobSeekerRepository;
 import com.app.Job_Portal.repository.ResumeRepository;
 import com.app.Job_Portal.repository.SkillRepository;
-<<<<<<< HEAD
-=======
 import com.app.Job_Portal.repository.UserRepository;
->>>>>>> crypt1
+
 
 @Service
 @Transactional
