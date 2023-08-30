@@ -1,9 +1,10 @@
 package com.app.Job_Portal.repository;
 
-import com.app.Job_Portal.entities.JobSeeker;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import com.app.Job_Portal.entities.JobSeeker;
 
 public interface JobSeekerRepository extends JpaRepository<JobSeeker, Long> {
     Optional<JobSeeker> findByEmail(String email);

@@ -1,5 +1,12 @@
 package com.app.Job_Portal.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.app.Job_Portal.dto.JobSeekerRequestDto;
 import com.app.Job_Portal.dto.JobseekerSignUpRequestDto;
 import com.app.Job_Portal.dto.RecruiterSignUpDto;
@@ -12,10 +19,6 @@ import com.app.Job_Portal.repository.AdminRepository;
 import com.app.Job_Portal.repository.JobSeekerRepository;
 import com.app.Job_Portal.repository.RecruiterRepository;
 import com.app.Job_Portal.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -54,7 +57,8 @@ public class SignUpServiceImpl implements SignUpService {
         User newUser = new User();
 
         newUser.setEmail(recruiterDto.getEmail());
-        newUser.setPassword(recruiterDto.getPassword());
+        String cryptPassword=new BCryptPasswordEncoder().encode(recruiterDto.getPassword());
+        newUser.setPassword(cryptPassword);
         newUser.setRecruiter(newRecruiter);
         newUser.setRole(recruiterDto.getRole());
         
@@ -82,7 +86,8 @@ public class SignUpServiceImpl implements SignUpService {
         User newUser = new User();
 
         newUser.setEmail(seekerDto.getEmail());
-        newUser.setPassword(seekerDto.getPassword());
+        String cryptPassword=new BCryptPasswordEncoder().encode(seekerDto.getPassword());
+        newUser.setPassword(cryptPassword);
         newUser.setJobSeeker(persitanceSeeker);
         newUser.setRole("ROLE_JOBSEEKER");
 

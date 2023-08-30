@@ -1,9 +1,5 @@
 package com.app.Job_Portal.dto;
 
-import com.app.Job_Portal.entities.Admin;
-import com.app.Job_Portal.entities.JobSeeker;
-import com.app.Job_Portal.entities.Recruiter;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -28,7 +28,11 @@ import com.app.Job_Portal.entities.JobType;
 import com.app.Job_Portal.entities.Resume;
 import com.app.Job_Portal.entities.Skill;
 import com.app.Job_Portal.entities.Status;
+<<<<<<< HEAD
 import com.app.Job_Portal.exceptions.InvalidInputException;
+=======
+import com.app.Job_Portal.entities.User;
+>>>>>>> crypt1
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
 import com.app.Job_Portal.repository.EducationalDetailsRepository;
 import com.app.Job_Portal.repository.JobApplicationRepository;
@@ -36,6 +40,10 @@ import com.app.Job_Portal.repository.JobRepository;
 import com.app.Job_Portal.repository.JobSeekerRepository;
 import com.app.Job_Portal.repository.ResumeRepository;
 import com.app.Job_Portal.repository.SkillRepository;
+<<<<<<< HEAD
+=======
+import com.app.Job_Portal.repository.UserRepository;
+>>>>>>> crypt1
 
 @Service
 @Transactional
@@ -57,6 +65,9 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
     @Autowired
     private ResumeRepository resumeRepo;
+    
+    @Autowired
+    private UserRepository userRepo;
 
     @Autowired
     private ModelMapper mapper;
@@ -360,6 +371,8 @@ System.out.println("req ss");
         if(resume.isPresent()) {
             resumeRepo.delete(resume.get());
         }
+        User user=userRepo.findByEmail(seeker.getEmail()).orElseThrow(()->new ResourceNotFoundException("job seeker with given id doesn't exists "));
+        userRepo.delete(user);
         jobSeekerRepo.delete(seeker);
         return "jobseeker removed succefully";
     }

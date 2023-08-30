@@ -9,10 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.app.Job_Portal.dto.EducationalDetailsDto;
-import com.app.Job_Portal.dto.JobListDto;
-import com.app.Job_Portal.dto.JobSeekerResponseDto;
-import com.app.Job_Portal.dto.RecruiterDto;
 import com.app.Job_Portal.dto.SkillDto;
 import com.app.Job_Portal.entities.Skill;
 import com.app.Job_Portal.repository.SkillRepository;

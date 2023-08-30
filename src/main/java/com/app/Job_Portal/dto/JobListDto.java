@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.Job_Portal.entities.JobType;
-import com.app.Job_Portal.entities.Status;
 
 import lombok.Getter;
 import lombok.Setter;

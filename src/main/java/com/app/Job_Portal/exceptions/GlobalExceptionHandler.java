@@ -83,7 +83,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         String originalErrorMessage = ex.getMostSpecificCause().getMessage();
-        String customErrorMessage = "Invalid date format. Please provide the date in yyyy-MM-dd format.";
+        String customErrorMessage = "Something went wrong,Invalid JSON format";
 
         if (ex.getMostSpecificCause() instanceof DateTimeParseException) {
             // Handle DateTimeParseException specifically
@@ -92,7 +92,7 @@ public class GlobalExceptionHandler {
 
         if(ex.getMostSpecificCause()instanceof InvalidFormatException)
         {
-        	customErrorMessage="Invalid Job type, Job Type Must be in:[FULL_TIME,PART_TIME] ";
+        	customErrorMessage="Invalid Format , check data entry ";
         }
         return ResponseEntity.badRequest().body(customErrorMessage);
     }
