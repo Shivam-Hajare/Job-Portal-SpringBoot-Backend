@@ -284,7 +284,15 @@ System.out.println("req ss");
         seeker.setFirstName(seekerDto.getFirstName());
         seeker.setLastName(seekerDto.getLastName());
         seeker.setYearOfExperience(seekerDto.getYearOfExperience());
+        
+        List<EducationalDetailsDto> educationalDetailsDtos = seekerDto.getEduInfo();
 
+        educationalDetailsDtos.forEach((dto)-> {
+                   if(dto.getPercentage()<0 || dto.getPercentage() > 100) {
+                       throw new InvalidInputException("percentage should be in between 0 and 100");
+                   }
+               });
+        
         List<SkillDto> skillDtosList = seekerDto.getSkills();
         List<Skill> skills = new ArrayList<>();
         for (SkillDto skillDto : skillDtosList) {
@@ -297,7 +305,6 @@ System.out.println("req ss");
         seeker.setSkills(skills);
 
         // Update educational details
-        List<EducationalDetailsDto> educationalDetailsDtos = seekerDto.getEduInfo();
         if (educationalDetailsDtos != null) {
 
             // Clear previous educational details

@@ -5,17 +5,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.app.Job_Portal.dto.JobApplicationsListDto;
 import com.app.Job_Portal.dto.JobListDto;
 import com.app.Job_Portal.dto.JobStatusDto;
 import com.app.Job_Portal.dto.PostJobRequestDto;
+import com.app.Job_Portal.dto.RecruiterDto;
 import com.app.Job_Portal.dto.RecruiterRequestDto;
 import com.app.Job_Portal.dto.SkillDto;
 import com.app.Job_Portal.dto.UpdateJobRequestDto;
@@ -23,10 +27,10 @@ import com.app.Job_Portal.entities.Job;
 import com.app.Job_Portal.entities.JobApplication;
 import com.app.Job_Portal.entities.JobSeeker;
 import com.app.Job_Portal.entities.Recruiter;
-import com.app.Job_Portal.entities.Resume;
 import com.app.Job_Portal.entities.Skill;
 import com.app.Job_Portal.entities.Status;
 import com.app.Job_Portal.exceptions.ResourceNotFoundException;
+import com.app.Job_Portal.exceptions.ValidationRule;
 import com.app.Job_Portal.repository.JobApplicationRepository;
 import com.app.Job_Portal.repository.JobRepository;
 import com.app.Job_Portal.repository.JobSeekerRepository;
@@ -100,6 +104,8 @@ public class RecruiterServiceImpl implements RecruiterService{
 	
 	@Override
 	public String postJob(PostJobRequestDto postJobRequestDto) {
+		
+		
 		Job job = mapper.map(postJobRequestDto, Job.class);
 		// checking recruiter present or not also skills list is not empty
 		if (recruiterRepository.existsById(postJobRequestDto.getRecruiterId())
@@ -226,11 +232,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 		 recruiter.setCompanyName(recruiterDto.getCompanyName());
 		 recruiterRepository.save(recruiter);
 		 
-		 return "profile updated succefully !!!";
-		 
-		 
-		 
-		 
+		 return "profile updated succefully !!!"; 
 	 }
 	 
 	 @Override
@@ -238,15 +240,41 @@ public class RecruiterServiceImpl implements RecruiterService{
 	 {
 		 Recruiter recruiter=recruiterRepository.findById(recuiterId).orElseThrow(()->new ResourceNotFoundException("recruiter with given id not found"));
 		 RecruiterRequestDto recru=mapper.map(recruiter, RecruiterRequestDto.class);
-		
-	 
-			
 			return recru;
 	 
 	 }
 	 
+	 //get All Recruiters for admin contoller
+	 @Override
+	 public List<RecruiterDto> getAllRecruiters(Pageable pageable) {
+		    
+		    // Get a Page object of recruiters from the recruiterRepository repository.
+		     
+		    Page<Recruiter> recruiters = recruiterRepository.findAll(pageable);
 
+		    //Create a List object to hold the RecruiterDto objects.
+		     
+		    List<RecruiterDto> recruiterDtos = new ArrayList<>();
 
+		    //Iterate over the contents of the Page object and create a RecruiterDto object for each recruiter.
+		     
+		    for (Recruiter recruiter : recruiters.getContent()) {
+		        // Create a RecruiterDto object using the mapper object.
+		         
+		        RecruiterDto recruiterHolder = mapper.map(recruiter, RecruiterDto.class);
 
+		        //Set the jobListing property of the RecruiterDto object to the JobListDto object that is created from the recruiter's jobListings property.
+		         
+		        JobListDto jobList = mapper.map(recruiter.getJobListings(), JobListDto.class);
+		        recruiterHolder.setJobListing(jobList);
+
+		        //Add the RecruiterDto object to the List object.
+		         
+		        recruiterDtos.add(recruiterHolder);
+		    }
+		    //Return the List object.
+		     
+		    return recruiterDtos;
+		}
 
 }

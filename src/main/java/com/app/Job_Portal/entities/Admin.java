@@ -50,4 +50,13 @@ public class Admin {
     public Admin(Long id) {
         this.adminId = id;
     }
+
+    public Admin(long l, String mail, String firstName, String lastName, String password) {
+
+        this.adminId = (long)1;
+        this.email  = mail;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
 }
